@@ -1,0 +1,44 @@
+{% extends 'MBTI/components/base.html' %}
+
+{% block site_title %}สมัครสมาชิก - {% endblock %}
+
+{% block content %}
+<body class="bg-[#fed7aa] ">
+  <div class="py-20 mt-20 flex flex-col justify-center ">
+    <div class="bg-white w-full max-w-xl mx-auto p-8 border border-amber-500 rounded drop-shadow-2xl">
+      <h3 class="text-4xl text-center mb-6 font-bold text-black">สมัครสมาชิก</h3>
+      <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="text-left t">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+          {{ form.username.errors }}
+          
+        </div>
+        <div class="text-lef ">
+          {{ form.email.label_tag }}
+          {{ form.email }}
+          {{ form.email.errors }}
+          
+        </div>
+        <div class="text-left ">
+          {{ form.password1.label_tag }}
+          {{ form.password1 }}
+          {{ form.password1.errors }}
+          
+        </div>
+        <div class="text-left ">
+          {{ form.password2.label_tag }}
+          {{ form.password2 }}
+          {{ form.password2.errors }}
+          
+        </div>
+        <div class="text-center">
+          <button class="px-4 py-2 mt-10 bg-green-600 text-white rounded hover:bg-green-700" type="submit">สมัครสมาชิก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+{% endblock %}

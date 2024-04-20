@@ -1,0 +1,30 @@
+{% extends 'MBTI/components/base.html' %}
+
+{% block site_title %}เข้าสู่ระบบ{% endblock %}
+
+{% block content %}
+<body class="bg-[#fed7aa]">
+  <div class=" py-20 mt-20">
+    <div class="bg-white w-full max-w-xl mx-auto p-8 border border-amber-500 rounded drop-shadow-2xl">
+      <h3 class="text-4xl text-center mb-6 font-bold text-black">เข้าสู่ระบบ</h3>
+      <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+        <div class="mt-10">
+          <button class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" type="submit">เข้าสู่ระบบ</button>
+          <a class="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700" href="{% url 'register' %}">สมัครสมาชิก</a>
+          <a class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700" href="{% url 'password_reset' %}">ลืมรหัสผ่าน?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+{% endblock %}
+
+
+
+

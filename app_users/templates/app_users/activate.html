@@ -1,0 +1,14 @@
+{% extends 'MBTI/components/base.html' %}
+
+{% block site_title %}{{ title }} - {% endblock %}
+
+{% block content %}
+<body class="bg-[#fed7aa]">
+  <div class="flex flex-col justify-center items-center py-20">
+    <div class="bg-white w-full max-w-xl mx-auto p-8 border border-amber-500 rounded drop-shadow-2xl">
+      <h3 >{{ title }}</h3>
+      <p>{{ content }}</p>
+    </div>
+  </div>
+</body>
+{% endblock %}
