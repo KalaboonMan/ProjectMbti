@@ -1,0 +1,33 @@
+{% extends 'MBTI/components/base.html/' %}
+
+{% block content %}
+<body class="bg-[#fed7aa]">
+    <div class="container mx-auto py-10">
+        <h1 class="mx-auto p-20 text-center mt-8 px-4 py-2 font-bold">ประวัติการโพสของคุณ</h1>
+    <div class="flex flex-wrap -mx-2 justify-center">
+      {% for post in posts %}
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="p-4">
+              <div class="font-bold text-xl mb-2">{{ post.user.username }}</div>
+              <p class="text-gray-700 text-base break-words">
+                {{ post.text }}
+              </p>
+              <div class="pt-4 pb-2">
+                <span class="inline-block bg-amber-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{{ post.created_at|date:"M d, Y H:i" }}</span>
+              </div>
+              <div class="flex justify-between mt-4">
+                {% if user.is_authenticated and user == post.user %}
+                <a href="{% url 'delete_post' post.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">ลบ</a>
+                <a href="{% url 'edit_post' post.id %}"class="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700">แก้ไข</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+{% endblock %}
+

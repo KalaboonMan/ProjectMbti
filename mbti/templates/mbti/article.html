@@ -1,0 +1,33 @@
+{% extends 'MBTI/components/base.html/' %}
+
+{% block content %}
+<body class="bg-[#fed7aa]">
+    <div class="container mx-auto py-10">
+        <div class="flex justify-center mb-8">
+          <form action="{% url 'search_posts' %}" method="get" class="flex">
+            <input type="text" name="query" placeholder="ค้นหา..." class="px-4 py-2 border-2 border-r-0 border-amber-500 rounded-l-md ">
+            <button type="submit" class="px-4 py-2 border-2 border-amber-500 rounded-r-md bg-amber-500 text-white hover:bg-amber-600 ">ค้นหา</button>
+          </form>
+        </div>
+
+    <div class="flex flex-wrap -mx-2 justify-center p-10">
+      {% for post in posts %}
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="p-4">
+              <div class="font-bold text-xl mb-2">{{ post.user.username }}</div>
+              <p class="text-gray-700 text-base break-words">
+                {{ post.text }}
+              </p>
+              <div class="pt-4">
+                <span class="inline-block bg-amber-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{{ post.created_at|date:"M d, Y H:i" }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+{% endblock %}
+

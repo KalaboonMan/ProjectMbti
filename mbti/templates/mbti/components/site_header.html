@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    margin:0;
+    font-family: 'Mali', cursive;
+    font-size: 21px;
+
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0.9rem 1rem;
+    background-color: white;
+    
+  }
+  .nav-links {
+    display: flex;
+    flex: 2;
+    justify-content: flex-end;
+    
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: black;
+    margin: 0 3rem;
+  }
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+  .auth-links {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+  }
+  .auth-links a {
+    text-decoration: none;
+    color: black;
+    margin: 0 1rem;
+  }
+  .auth-links a:hover {
+    text-decoration: underline;
+  }
+  .auth-links form {
+    display: inline;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="nav-links">
+      <a href="{% url 'home' %}">หน้าแรก</a>
+      <a href="{% url 'mbti_test' %}">แบบทดสอบ</a>
+      <a href="{% url 'mbti_result' %}">ผลลัพธ์แบบทดสอบ</a>
+      <a href="{% url 'article' %}">บทความ</a>
+    </div>
+
+    <div class="auth-links">
+      <div x-data="{ open: false }" @keydown.escape="open = false" class="relative" @click.away="open = false">
+        {% if user.is_authenticated %}
+        <button @click="open = !open" class="text-gray-700 font-medium">
+          {{ user.username }}
+          <svg :class="{ 'transform rotate-180': open }" class="w-4 h-4 ml-2 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div x-show="open" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50" x-transition:enter="transition ease-out duration-100 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+          <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">ข้อมูลผู้ใช้</a>
+          <a href="{% url 'password_change' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">เปลี่ยนรหัสผ่าน</a>
+          <a href="{% url 'article_writing' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">เขียนบทความ</a>
+          <a href="{% url 'article_history' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">ประวัติบทความ</a>
+          <form action="{% url 'logout' %}" method="POST"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
+            {% csrf_token %}
+            <button type="submit">
+              ออกจากระบบ
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      {% else %}
+        <a href="{% url 'login' %}">เข้าสู่ระบบ</a>
+        <a href="{% url 'register' %}">สมัครสมาชิก</a>
+      {% endif %}
+    </div>
+  </header>
+</body>
+</html>
+

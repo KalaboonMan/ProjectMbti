@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block site_title %}{% endblock %}My web MBTI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="//unpkg.com/alpinejs" defer></script>
+</head>
+<body>
+    {% include 'MBTI/components/site_header.html' %}
+    {% block content %}{% endblock %}
+    
+</body>
+</html>
+
