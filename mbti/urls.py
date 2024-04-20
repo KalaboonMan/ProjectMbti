@@ -5,6 +5,7 @@ from MBTI import views
 
 urlpatterns = [
     path('', home ,name = 'home'),
+    path('mbti_test/', mbti_test ,name = 'mbti_test'),
     
     path('article/', article ,name = 'article'),
     path('article_writing/', article_writing ,name = 'article_writing'),
