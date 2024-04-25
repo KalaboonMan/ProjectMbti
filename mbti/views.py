@@ -9,6 +9,30 @@ def home(request):
 @login_required(login_url='/users/login')
 def mbti_test(request):
     return render(request, 'mbti/mbti_test.html')
+
+@login_required(login_url='/users/login')
+def mbti_result(request):
+    return render(request, 'mbti/mbti_result.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 def article(request):
     posts = Post.objects.all().order_by('-created_at')  # โพสต์ล่าสุดก่อน
