@@ -1,0 +1,14 @@
+{% extends 'MBTI/components/base.html/' %}
+
+{% block content %}
+
+
+<body class="bg-[#fed7aa]">
+  <h1>Your MBTI Result</h1>
+  {% if mbti_type %}
+      <p>บุคลิกภาพของคุณคือ: {{ mbti_type }}</p>
+  {% else %}
+      <p>โปรดทำแบบทดสอบก่อน</p>
+  {% endif %}
+</body>
+{% endblock %}
