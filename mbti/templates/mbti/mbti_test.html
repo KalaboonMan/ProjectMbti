@@ -4,6 +4,14 @@
   <div class="flex flex-col items-center justify-center text-center mx-auto p-20"> 
     <h1 class="text-4xl mt-1 mb-5 font-bold">แบบทดสอบบุคลิกภาพ</h1>
     <div class="text-center mt-8">
+      {% for q in Question %}
+        <h1 class="my-2">{{ q.Question }}</h1>
+        <div class="flex justify-center">
+        {% for a in q.Answer %}
+          <h1 class="text-sm mx-2">{{ a }}</h1>
+        {% endfor %}
+        </div>
+      {% endfor %}
       <form method="post" action="###">
         {% csrf_token %}
         <!-- form fields -->
