@@ -13,19 +13,19 @@
        
         {% csrf_token %}  
         <a>
-          {% for i in item %}
-          <p>{{ item.profile_picture }}</p>
           
-          {% if i in item %}
-          <img src="{{ i.profile_picture.url }}" alt="Image"style="width: 400px; height: auto;">
-          {% endif %}   
+      
           
-          <p>ชื่อ: {{ i.first_name }}</p>
-          <p>นามสกุล: {{ i.last_name }}</p>
-          <p>ที่อยู่:{{ i.address }} </p>
-          <p>เบอร์โทร: {{ i.phone }}</p>
+          
+          <img src="{{ profile.profile_picture.url }}" alt="Image"style="width: 400px; height: auto;">
+             
+          
+          <p>ชื่อ: {{ profile.first_name }}</p>
+          <p>นามสกุล: {{ profile.last_name }}</p>
+          <p>ที่อยู่:{{ profile.address }} </p>
+          <p>เบอร์โทร: {{ profile.phone }}</p>
  
-          {% endfor %}   
+            
         </a>
         
         <button type="submit">Save</button>

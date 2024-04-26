@@ -9,6 +9,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from app_users.forms import *
 from app_users.models import *
 from app_users.utils.activation_token_generator import activation_token_generator
+from .models import Profile
 
 # Create your views here.
 
@@ -108,10 +109,18 @@ def edit_profile(request: HttpRequest):
         response.delete_cookie("is_saved")
     return response
 
+
 @login_required
 def profile(request):
-    item = Profile.objects.all()
-    return render(request,"app_users/profile.html",{'item':item})
+    try:
+        user_profile = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        # จัดการกรณีที่ไม่มีโปรไฟล์อยู่
+        # คุณสามารถเปลี่ยนเส้นทางไปยังหน้าสำหรับการสร้างโปรไฟล์หรือแสดงข้อผิดพลาด
+        return redirect('edit_profile')  # แทนที่ 'create_profile' ด้วยชื่อ URL จริงของคุณสำหรับการสร้างโปรไฟล์
+
+    context = {'profile': user_profile}
+    return render(request, 'app_users/profile.html', context)
 
 
 @login_required
