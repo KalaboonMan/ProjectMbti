@@ -7,3 +7,42 @@ class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Question(models.Model):
+    text = models.TextField()
+
+    def __str__(self):
+        return self.text
+    
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    code = models.CharField(max_length=10)
+    text = models.TextField()
+
+    def __str__(self):
+        return self.text
+
+class Dimension(models.Model):
+    letter = models.CharField(max_length=1)
+    name = models.CharField(max_length=100)
+    detail_en = models.TextField()
+    detail_th = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class CodePoint(models.Model):
+    code = models.CharField(max_length=10, unique=True)
+    dimension = models.ForeignKey(Dimension, on_delete=models.CASCADE)
+    point = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.code} - {self.point}'
+
+class UserAnswer(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    answers = models.TextField()
+
+    def __str__(self):
+        return f'User {self.user.get_username()} answers: {self.answers}'
