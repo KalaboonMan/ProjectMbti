@@ -33,7 +33,7 @@ class Dimension(models.Model):
 
 
 class CodePoint(models.Model):
-    code = models.CharField(max_length=10, unique=True)
+    code = models.ForeignKey(Answer, on_delete=models.CASCADE)
     dimension = models.ForeignKey(Dimension, on_delete=models.CASCADE)
     point = models.IntegerField()
 
