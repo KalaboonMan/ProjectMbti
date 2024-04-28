@@ -1,35 +1,24 @@
-
 {% extends 'MBTI/components/base.html' %}
 
 {% block site_title %}ข้อมูลผู้ใช้ - {% endblock %}
 
 {% block content %}
 <body class="bg-[#fed7aa]">
-  <div class=" flex flex-col justify-center items-center py-20">
+  <div class="flex flex-col justify-center items-center min-h-screen"> <!-- ใช้ min-h-screen เพื่อให้ div นี้มีความสูงขั้นต่ำเท่ากับหน้าจอ -->
     <div class="bg-white w-full max-w-xl mx-auto p-8 border border-amber-500 rounded drop-shadow-2xl">
       <h3 class="text-4xl text-center mb-6 font-bold text-black">ข้อมูลผู้ใช้ของ {{ user.username }}</h3>
-
       <form method="post" enctype="multipart/form-data">
-       
-        {% csrf_token %}  
-        <a>
-          
-      
-          
-          
-          <img src="{{ profile.profile_picture.url }}" alt="Image"style="width: 400px; height: auto;">
-             
-          
+        {% csrf_token %}
+        <div class="text-center"> <!-- ใช้ text-center เพื่อจัดกลางข้อความและรูปภาพ -->
+          <img src="{{ profile.profile_picture.url }}" alt="Image" class="mx-auto mb-6" style="width: 400px; height: auto;"> <!-- ใช้ mx-auto เพื่อจัดกลางรูปภาพ -->
           <p>ชื่อ: {{ profile.first_name }}</p>
           <p>นามสกุล: {{ profile.last_name }}</p>
           <p>ที่อยู่:{{ profile.address }} </p>
-          <p>เบอร์โทร: {{ profile.phone }}</p>
- 
-            
-        </a>
-        
-        <button type="submit">Save</button>
-        <a href="{% url 'edit_profile'%}"class="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700">แก้ไข</a>
+          <p>เบอร์โทร: {{ profile.phone }}</p> 
+        </div>
+        <div class="flex justify-end mt-4"> <!-- ใช้ flex justify-center เพื่อจัดกลางปุ่ม -->
+          <a href="{% url 'edit_profile'%}" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">แก้ไข</a>
+        </div>
       </form>
     </div>
   </div>
