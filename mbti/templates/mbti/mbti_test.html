@@ -2,43 +2,44 @@
 {% block content %}
 <body class="bg-[#fed7aa]">
   <div class="flex flex-col items-center justify-center text-center mx-auto p-20"> 
-    <h1 class="text-4xl mt-1 mb-5 font-bold">แบบทดสอบบุคลิกภาพ</h1>
-    <div class="text-center mt-5">
+    <h1 class="text-4xl mt-1 mb-8 font-bold text-[#654321]">แบบทดสอบบุคลิกภาพ</h1>
+    <div class="w-full max-w-4xl bg-white rounded-lg shadow-md p-8 mb-6">
       {% if error_message_25 %}
-        <h1 class="text-red-600 font-bold">{{ error_message_25 }}</h1>
+        <p class="text-red-600 font-bold">{{ error_message_25 }}</p>
       {% endif %}
-      <div class="text-center mt-5">
       <form method="post">
         {% csrf_token %}
-        <!-- เพิ่มคำถามเกี่ยวกับเพศ -->
-        <label>เพศของคุณคืออะไร?</label><br>
-        <input type="radio" name="gender" value="Male" id="genderMale">
-        <label for="genderMale">ชาย</label>
-        <input type="radio" name="gender" value="Female" id="genderFemale">
-        <label for="genderFemale">หญิง</label><br>
+        <!-- คำถามเกี่ยวกับเพศด้วยข้อความขนาดใหญ่ -->
+        <div class="mb-5 text-2xl">
+          <label class="block text-[#654321] font-bold mb-2">เพศของคุณคืออะไร?</label>
+          <div class="mt-2">
+            <input type="radio" name="gender" value="Male" id="genderMale" class="form-radio h-5 w-5 text-orange-600">
+            <label for="genderMale" class="text-xl text-[#654321] mr-4">ชาย</label>
+            <input type="radio" name="gender" value="Female" id="genderFemale" class="form-radio h-5 w-5 text-orange-600">
+            <label for="genderFemale" class="text-xl text-[#654321]">หญิง</label>
+          </div>
+        </div>
         
-        <!-- คำถาม MBTI อื่นๆ -->
+        <!-- คำถาม MBTI ด้วยข้อความขนาดปกติ -->
         {% for question in questions %}
-          <div>
-            <strong>คำถามที่ {{ forloop.counter }}: {{ question.text }}</strong><br>
-            {% if forloop.counter == 25 %}
-              <!-- เปลี่ยนจาก input ประเภท radio เป็น checkbox สำหรับคำถามที่ 25 -->
+          <div class="mb-6 p-5 bg-orange-100 rounded-lg shadow-md">
+            <strong class="text-2xl text-[#654321]">{{ forloop.counter }}. {{ question.text }}</strong>
+            <div class="mt-3">
+              <!-- ตัวเลือกคำตอบด้วยข้อความขนาดเล็กกว่า -->
               {% for answer in question.answer_set.all %}
-                <input type="checkbox" name="answers_25" value="{{ answer.code }}" id="answer25_{{ answer.id }}">
-                <label for="answer25_{{ answer.id }}">{{ answer.text }}</label><br>
+                <div class="mt-2">
+                  <input type="radio" name="question_{{ question.id }}" value="{{ answer.code }}" id="answer_{{ answer.id }}" class="form-radio h-4 w-4 text-orange-600">
+                  <label for="answer_{{ answer.id }}" class="text-xl text-[#654321] ml-2">{{ answer.text }}</label>
+                </div>
               {% endfor %}
-            {% else %}
-              {% for answer in question.answer_set.all %}
-                <input type="radio" name="question_{{ question.id }}" value="{{ answer.code }}" id="answer_{{ answer.id }}">
-                <label for="answer_{{ answer.id }}">{{ answer.text }}</label><br>
-                
-              {% endfor %}
-            {% endif %}
+            </div>
           </div>
         {% endfor %}
     
-        <input type="submit" value="Submit">
-    </form>
+        <div class="flex justify-center">
+          <input type="submit" value="ส่งคำตอบ" class="px-4 py-2 mt-6 font-bold text-white bg-orange-500 rounded hover:bg-orange-700 cursor-pointer">
+        </div>
+      </form>
     </div>
   </div>
 </body>

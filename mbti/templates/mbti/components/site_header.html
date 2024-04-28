@@ -74,7 +74,7 @@
           <a href="{% url 'password_change' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">เปลี่ยนรหัสผ่าน</a>
           <a href="{% url 'article_writing' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">เขียนบทความ</a>
           <a href="{% url 'article_history' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">ประวัติบทความ</a>
-          <form action="{% url 'logout' %}" method="POST"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
+          <form action="{% url 'logout' %}" method="POST"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">
             {% csrf_token %}
             <button type="submit">
               ออกจากระบบ
