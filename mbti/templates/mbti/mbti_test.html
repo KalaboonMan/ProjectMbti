@@ -3,19 +3,41 @@
 <body class="bg-[#fed7aa]">
   <div class="flex flex-col items-center justify-center text-center mx-auto p-20"> 
     <h1 class="text-4xl mt-1 mb-5 font-bold">แบบทดสอบบุคลิกภาพ</h1>
-    <div class="text-center mt-8">
-      {% for q in Question %}
-        <h1 class="my-2">{{ q.Question }}</h1>
-        <div class="flex justify-center">
-        {% for a in q.Answer %}
-          <h1 class="text-sm mx-2">{{ a }}</h1>
-        {% endfor %}
-        </div>
-      {% endfor %}
-      <form method="post" action="###">
+    <div class="text-center mt-5">
+      {% if error_message_25 %}
+        <h1 class="text-red-600 font-bold">{{ error_message_25 }}</h1>
+      {% endif %}
+      <div class="text-center mt-5">
+      <form method="post">
         {% csrf_token %}
-        <!-- form fields -->
-        <button type="submit" class="w-full px-4 py-2 font-bold bg-[#22c55e]  rounded-lg hover:bg-[#15803d]">Submit</button>
+        <!-- เพิ่มคำถามเกี่ยวกับเพศ -->
+        <label>เพศของคุณคืออะไร?</label><br>
+        <input type="radio" name="gender" value="Male" id="genderMale">
+        <label for="genderMale">ชาย</label>
+        <input type="radio" name="gender" value="Female" id="genderFemale">
+        <label for="genderFemale">หญิง</label><br>
+        
+        <!-- คำถาม MBTI อื่นๆ -->
+        {% for question in questions %}
+          <div>
+            <strong>คำถามที่ {{ forloop.counter }}: {{ question.text }}</strong><br>
+            {% if forloop.counter == 25 %}
+              <!-- เปลี่ยนจาก input ประเภท radio เป็น checkbox สำหรับคำถามที่ 25 -->
+              {% for answer in question.answer_set.all %}
+                <input type="checkbox" name="answers_25" value="{{ answer.code }}" id="answer25_{{ answer.id }}">
+                <label for="answer25_{{ answer.id }}">{{ answer.text }}</label><br>
+              {% endfor %}
+            {% else %}
+              {% for answer in question.answer_set.all %}
+                <input type="radio" name="question_{{ question.id }}" value="{{ answer.code }}" id="answer_{{ answer.id }}">
+                <label for="answer_{{ answer.id }}">{{ answer.text }}</label><br>
+                
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+    
+        <input type="submit" value="Submit">
     </form>
     </div>
   </div>

@@ -42,7 +42,10 @@ class CodePoint(models.Model):
 
 class UserAnswer(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    gender = models.CharField(max_length=6, choices=(('Male', 'ชาย'), ('Female', 'หญิง')))
     answers = models.TextField()
+    
 
     def __str__(self):
-        return f'User {self.user.get_username()} answers: {self.answers}'
+        return f'{self.user.get_username()} gender: {self.gender} answers: {self.answers}'
+
