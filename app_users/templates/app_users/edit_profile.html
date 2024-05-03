@@ -15,9 +15,7 @@
         {% csrf_token %}
         {{ extended_form.profile_picture }}
         
-        {{ extended_form.first_name.errors }}
         <p>ชื่อ: {{ extended_form.first_name }}</p>
-        {{ extended_form.last_name.errors }}
         <p>นามสกุล: {{ extended_form.last_name }}</p>
 
         <p>ที่อยู่:{{ extended_form.address }} </p>
