@@ -15,7 +15,7 @@ class Profile(models.Model):
     address = models.TextField(default="", blank=True)
     phone = models.CharField(max_length=15, default="", blank=True)
     user = models.OneToOneField("app_users.User", on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='profile_pics/',null= True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg')
     
 
     def __str__(self):

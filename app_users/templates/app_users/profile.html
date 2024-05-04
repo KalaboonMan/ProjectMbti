@@ -1,6 +1,6 @@
 {% extends 'MBTI/components/base.html' %}
 
-{% block site_title %}ข้อมูลผู้ใช้ - {% endblock %}
+{% load static %} 
 
 {% block content %}
 <body class="bg-[#fed7aa]">
@@ -10,7 +10,14 @@
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="text-center"> <!-- ใช้ text-center เพื่อจัดกลางข้อความและรูปภาพ -->
-          <img src="{{ profile.profile_picture.url }}" alt="Image" class="mx-auto mb-6" style="width: 400px; height: auto;"> <!-- ใช้ mx-auto เพื่อจัดกลางรูปภาพ -->
+          {% if profile.profile_picture %}
+          <img src="{{ profile.profile_picture.url }}" alt="Profile Image" class="mx-auto mb-6" style="width: 400px; height: auto;">
+          {% else %}
+          <img src="{% get_media_prefix %}profile_pics/default.jpg" alt="Default Image" class="mx-auto mb-6" style="width: 400px; height: auto;">
+          {% endif %}
+
+          <!-- ใช้ mx-auto เพื่อจัดกลางรูปภาพ -->
+          
           <p>ชื่อ: {{ profile.first_name }}</p>
           <p>นามสกุล: {{ profile.last_name }}</p>
           <p>ที่อยู่:{{ profile.address }} </p>

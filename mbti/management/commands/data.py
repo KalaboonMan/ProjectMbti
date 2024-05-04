@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Imports data from an Excel file into the database.' 
 
     def add_arguments(self, parser):
-        parser.add_argument('file', nargs='?', type=str, default=r'C:\Users\Kanjana\ProjectMbti\question_new.xlsx', help='The Excel file path.')
+        parser.add_argument('file', nargs='?', type=str, default=r'C:\Users\Mario\ProjectMbti\question_new.xlsx', help='The Excel file path.')
 
     def handle(self, *args, **options):
         file_path = options['file']
