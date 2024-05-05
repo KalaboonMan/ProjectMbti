@@ -12,8 +12,9 @@
                 <p>{{ message }}</p>  <!-- ข้อความแสดงเมื่อไม่มีข้อมูลผลลัพธ์ -->
                 {% else %}
                     {% if Point %}
-                        <p>คะแนนของคุณคือ: {{ Point }}</p>
+                        <p>คะแนนของคุณคือ: <br> {{ Point }}</p>
                     {% endif %}
+                    <br>
                     {% if MBTI %}
                         <p>สรุปผลลัพธ์ MBTI ของคุณคือ: <br> {{ MBTI }}</p>
                     {% endif %}
@@ -23,8 +24,8 @@
             <div class="w-1/2">
                 <form method="POST">
                     {% csrf_token %}
-                    <input type="text" name="prompt" id="prompt" class="border-2 border-orange-500 bg-gray-100 rounded-lg" placeholder="1boy,teacher,career,blue hair,full body">
-                    <button type="submit" class="rounded-full shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
+                    <input type="text" name="prompt" id="prompt" class=" border-2 border-orange-500 bg-gray-100 rounded-lg p-1" placeholder="1boy,teacher,career,blue hair,full body">
+                    <button type="submit" class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
                 </form>
                 <br>
                 <div style="display: flex; justify-content: center; align-items: center;">
