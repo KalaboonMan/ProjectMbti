@@ -5,28 +5,17 @@ from .forms import *
 from diffusers import DiffusionPipeline
 import base64
 from io import BytesIO
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from PIL import Image
+import os
+from django.core.files.base import ContentFile
+from io import BytesIO
 
 pipe = DiffusionPipeline.from_pretrained("Ojimi/anime-kawai-diffusion")
 pipe = pipe.to("cpu")
 
-def textimage(request):
-    if request.method == 'GET':
-        print('กำลังสร้าง')
-        prompt = request.GET.get('prompt', 'default prompt if none provided')
 
-        # Generate the image
-        image = pipe(prompt, negative_prompt="lowres, bad anatomy").images[0]
-
-        # Convert to base64 to embed in HTML
-        buffered = BytesIO()
-        image.save(buffered, format="JPEG")
-        img_str = base64.b64encode(buffered.getvalue()).decode()
-
-        # Pass the base64 image to template
-        return render(request, 'mbti_result.html', {'image': img_str})
-    else:
-        # Handle other request types if necessary
-        pass
     
 def home(request):
     return render(request, 'mbti/home.html')
@@ -78,8 +67,14 @@ def mbti_test(request):
 
 @login_required(login_url='/users/login')
 def mbti_result(request):
-    # ดึงข้อมูล user ล่าสุดจากฐานข้อมูล
-    user_answers = UserAnswer.objects.filter(user=request.user).latest('id')
+    try:
+        user_answers = UserAnswer.objects.filter(user=request.user).latest('id')
+    except UserAnswer.DoesNotExist:
+        # If no answers exist, inform the user to take the test
+        return render(request, 'mbti/mbti_result.html', {
+            'message': 'โปรดทำแบบทดสอบก่อน'
+        })
+
     gender = user_answers.gender
     all_answers = user_answers.answers.split(',')
     if request.method == 'POST' :
@@ -87,8 +82,16 @@ def mbti_result(request):
         prompt = request.POST.get('prompt')
         
         image = pipe(prompt, negative_prompt="lowres, bad anatomy").images[0]
-        image.show()
+        img_io = BytesIO()
+        image.save(img_io, format='JPEG')
+        image_filename = f'{request.user.username}.jpg'
 
+        image_path = os.path.join('media/ai_image', image_filename)
+        image.save(image_path)
+
+        user_answers.image_path = image_path
+        user_answers.save()
+        return redirect('mbti_result')
     # ตั้งค่าจุดเริ่มต้นสำหรับการคำนวณคะแนน
     Point = {'E': 0, 'I': 0, 'S': 0, 'N': 0, 'T': 0, 'F': 0, 'J': 0, 'P': 0}
 
@@ -139,11 +142,6 @@ def mbti_result(request):
     }
 
     return render(request, 'mbti/mbti_result.html', context)
-
-
-
-
-
 
 
 
