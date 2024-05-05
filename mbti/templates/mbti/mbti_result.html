@@ -4,26 +4,34 @@
 <body class="bg-[#fed7aa]">
   <div class="flex flex-col items-center justify-center text-center mx-auto p-20"> 
     <div class="w-full max-w-8xl bg-white rounded-lg shadow-md p-8 mb-6">
-      <h1>ผลลัพธ์ บุคลิกภาพของคุณ {{ user.username }}</h1>
-      <br>
-      {% if message %}
-        <p>{{ message }}</p>  <!-- ข้อความแสดงเมื่อไม่มีข้อมูลผลลัพธ์ -->
-      {% else %}
-          {% if Point %}
-              <p>คะแนนของคุณคือ: {{ Point }}</p>
-          {% endif %}
-          {% if MBTI %}
-              <p>สรุปผลลัพธ์ MBTI ของคุณคือ: <br> {{ MBTI }}</p>
-          {% endif %}
-      {% endif %}
-
-      <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="prompt" id="prompt" class="border-2 border-orange-500 bg-gray-100 rounded-lg" placeholder="1boy,teacher,career,blue hair,full body">
-        <button type="submit" class="rounded-full shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
-    </form>
-</div>
-<img src="../media/ai_image/{{user.username}}.jpg" alt="{{user.username}}">
+        <div class="flex justify-between">
+            <div class="w-1/2 p-4">
+                <h1>ผลลัพธ์ บุคลิกภาพของคุณ {{ user.username }}</h1>
+                <br>
+                {% if message %}
+                <p>{{ message }}</p>  <!-- ข้อความแสดงเมื่อไม่มีข้อมูลผลลัพธ์ -->
+                {% else %}
+                    {% if Point %}
+                        <p>คะแนนของคุณคือ: {{ Point }}</p>
+                    {% endif %}
+                    {% if MBTI %}
+                        <p>สรุปผลลัพธ์ MBTI ของคุณคือ: <br> {{ MBTI }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        
+            <div class="w-1/2">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="prompt" id="prompt" class="border-2 border-orange-500 bg-gray-100 rounded-lg" placeholder="1boy,teacher,career,blue hair,full body">
+                    <button type="submit" class="rounded-full shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
+                </form>
+                <br>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="../media/ai_image/{{user.username}}.jpg" alt="{{user.username}}" style="max-width: 35%; height: auto;">
+                </div>
+            </div>
+        </div>
     </div>
   </div>
 </body>
