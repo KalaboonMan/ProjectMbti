@@ -24,9 +24,37 @@
             <div class="w-1/2">
                 <form method="POST">
                     {% csrf_token %}
-                    <input type="text" name="prompt" id="prompt" class=" border-2 border-orange-500 bg-gray-100 rounded-lg p-1" placeholder="1boy,teacher,career,blue hair,full body">
+                    <!-- ตัวอย่าง HTML สำหรับ dropdown menu -->
+                    <label  for="myDropdown">เลือกอาชีพ:</label>
+                    <select id="myDropdown" name="career">
+                        <option value="Police">ตำรวจ</option>
+                        <option value="doctor">แพทย์</option>
+                        <option value="engineer">วิศวกร</option>
+                        <option value="soldier">ทหาร</option>
+                    </select>
+                    <br>
+                    <label  for="myDropdown">เลือกสีผม:</label>
+                    <select id="myDropdown" name="hair">
+                        <option value="red hair">แดง</option>
+                        <option value="black hair">ดำ</option>
+                        <option value="white hair">ขาว</option>
+                        <option value="yellow hair">เหลือง</option>
+                    </select>
+                    <br>
+                    <label  for="myDropdown">เลือกสีผิว:</label>
+                    <select id="myDropdown" name="skin">
+                        <option value="fair skin ">ขาว</option>
+                        <option value="warm skin">ขาวเหลือง</option>
+                        <option value="dark skin">เข้ม</option>
+                    
+
+                    </select>
+                    <br>    
+                    <br>
+                    <!-- <input type="text" name="prompt" id="prompt" class=" border-2 border-orange-500 bg-gray-100 rounded-lg p-1" placeholder="1boy,teacher,career,blue hair,full body"> -->
                     <button  onclick="submitForm()" class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
                 </form>
+                
                 <br>
                 <div id="message"></div>
                 <br>

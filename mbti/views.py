@@ -75,8 +75,14 @@ def mbti_result(request):
     Point,MBTI = calculate(all_answers,gender)
     if request.method == 'POST' :
         
-        prompt = request.POST.get('prompt')
+      
+        prompt_2 = request.POST.get('career')
+        prompt_3 = request.POST.get('hair')
+        prompt_4 = request.POST.get('skin')
+        prompt = gender +","+prompt_2+","+prompt_3+","+prompt_4+","+'career'+","+'solo'+","+'cute'+","+'full body'
         
+       
+
         image = pipe(prompt, negative_prompt="lowres, bad anatomy, inappropriate content, explicit, suggestive").images[0]
         img_io = BytesIO()
         image.save(img_io, format='JPEG')
