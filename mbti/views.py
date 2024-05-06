@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
+from app_users.models import *
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from diffusers import DiffusionPipeline
@@ -11,6 +12,7 @@ from PIL import Image
 import os
 from django.core.files.base import ContentFile
 from io import BytesIO
+from django.contrib.auth import get_user_model
 
 pipe = DiffusionPipeline.from_pretrained("Ojimi/anime-kawai-diffusion")
 pipe = pipe.to("cpu")
@@ -74,9 +76,9 @@ def mbti_result(request):
         return render(request, 'mbti/mbti_result.html', {
             'message': 'โปรดทำแบบทดสอบก่อน'
         })
-
     gender = user_answers.gender
     all_answers = user_answers.answers.split(',')
+    Point,MBTI = calculate(all_answers,gender)
     if request.method == 'POST' :
         
         prompt = request.POST.get('prompt')
@@ -93,10 +95,43 @@ def mbti_result(request):
         user_answers.save()
         return redirect('mbti_result')
     # ตั้งค่าจุดเริ่มต้นสำหรับการคำนวณคะแนน
+
+    full_url = request.build_absolute_uri()
+    user = request.user
+    full_url = full_url.split('mbti_result')[0] +'share_result/'+ str(user.id)
+    context = {
+        "Point": Point,
+        "MBTI": MBTI,
+        'mbti_result': mbti_result,
+        'full_url': full_url,
+    }
+
+    return render(request, 'mbti/mbti_result.html', context)
+def share_result(request,id):
+    User = get_user_model()
+    user = User.objects.get(pk = id)
+    user = UserAnswer.objects.filter(user=user).latest('id')
+    gender = user.gender
+    all_answers = user.answers.split(',')
+    Point,MBTI = calculate(all_answers,gender)
+    full_url = request.build_absolute_uri()
+    context = {
+        'mbti_result': mbti_result,
+        'full_url': full_url,
+        'user' : user.user.username,
+        "Point": Point,
+        "MBTI": MBTI,
+    }
+    return render(request, 'mbti/share_result.html', context)
+
+
+
+
+def calculate(answer,gender):
     Point = {'E': 0, 'I': 0, 'S': 0, 'N': 0, 'T': 0, 'F': 0, 'J': 0, 'P': 0}
 
     # วนลูปผ่านคำตอบทั้งหมดเพื่อคำนวณคะแนน
-    for answer_code in all_answers:
+    for answer_code in answer:
         answer = Answer.objects.get(code=answer_code)
         codepoints = CodePoint.objects.filter(code=answer)
 
@@ -136,18 +171,7 @@ def mbti_result(request):
     else:
         MBTI += 'P'
 
-    context = {
-        "Point": Point,
-        "MBTI": MBTI
-    }
-
-    return render(request, 'mbti/mbti_result.html', context)
-
-
-
-
-
-
+    return Point,MBTI
 
 
 

@@ -9,6 +9,7 @@ urlpatterns = [
     path('', home ,name = 'home'),
     path('mbti_test/', mbti_test ,name = 'mbti_test'),
     path('mbti_result/', mbti_result ,name = 'mbti_result'),
+    path('share_result/<int:id>', share_result ,name = 'share_result'),
     
     
     path('article/', article ,name = 'article'),
