@@ -4,14 +4,8 @@ from app_users.models import *
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from diffusers import DiffusionPipeline
-import base64
 from io import BytesIO
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-from PIL import Image
 import os
-from django.core.files.base import ContentFile
-from io import BytesIO
 from django.contrib.auth import get_user_model
 
 pipe = DiffusionPipeline.from_pretrained("Ojimi/anime-kawai-diffusion")
@@ -83,7 +77,7 @@ def mbti_result(request):
         
         prompt = request.POST.get('prompt')
         
-        image = pipe(prompt, negative_prompt="lowres, bad anatomy").images[0]
+        image = pipe(prompt, negative_prompt="lowres, bad anatomy, inappropriate content, explicit, suggestive").images[0]
         img_io = BytesIO()
         image.save(img_io, format='JPEG')
         image_filename = f'{request.user.username}.jpg'
