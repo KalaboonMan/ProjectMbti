@@ -180,33 +180,6 @@ def calculate(answer,gender):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
 def article(request):
     posts = Post.objects.all().order_by('-created_at')  # โพสต์ล่าสุดก่อน

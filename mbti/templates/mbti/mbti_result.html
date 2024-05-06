@@ -25,8 +25,10 @@
                 <form method="POST">
                     {% csrf_token %}
                     <input type="text" name="prompt" id="prompt" class=" border-2 border-orange-500 bg-gray-100 rounded-lg p-1" placeholder="1boy,teacher,career,blue hair,full body">
-                    <button type="submit" class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
+                    <button  onclick="submitForm()" class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
                 </form>
+                <br>
+                <div id="message"></div>
                 <br>
                 <div style="display: flex; justify-content: center; align-items: center;">
                     <img src="../media/ai_image/{{user.username}}.jpg" alt="{{user.username}}" style="max-width: 35%; height: auto;">
@@ -49,5 +51,10 @@
             console.error('Failed to copy:', err);
         });
     }
+    function submitForm() {
+        
+        document.getElementById('message').innerText = 'กำลังสร้าง...(5-6นาที)';  // ข้อความที่จะแสดง
+    
+        }
 </script>
-{% endblock %}    
+{% endblock %}  
