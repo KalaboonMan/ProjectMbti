@@ -72,7 +72,7 @@ def mbti_result(request):
         })
     gender = user_answers.gender
     all_answers = user_answers.answers.split(',')
-    Point,MBTI = calculate(all_answers,gender)
+    Point,MBTI, description = calculate(all_answers,gender)
     if request.method == 'POST' :
         
       
@@ -102,7 +102,7 @@ def mbti_result(request):
     context = {
         "Point": Point,
         "MBTI": MBTI,
-        'mbti_result': mbti_result,
+        'description': description,
         'full_url': full_url,
     }
 
@@ -171,7 +171,31 @@ def calculate(answer,gender):
     else:
         MBTI += 'P'
 
-    return Point,MBTI
+    mbti_descriptions = {
+        'INTJ': 'Your description here for INTJ...',
+        'INTP': 'Your description here for INTP...',
+        'ENTJ': 'Your description here for ENTJ...',
+        'ENTP': 'Your description here for ENTP...',
+        'INFJ': 'Your description here for INFJ...',
+        'INFP': 'Your description here for INFP...',
+        'ENFJ': 'Your description here for ENFJ...',
+        'ENFP': 'Your description here for ENFP...',
+        'ISTJ': 'Your description here for ISTJ...',
+        'ISFJ': 'Your description here for ISFJ...',
+        'ESTJ': 'Your description here for ESTJ...',
+        'ESFJ': 'Your description here for ESFJ...',
+        'ISTP': 'Your description here for ISTP...',
+        'ISFP': 'Your description here for ISFP...',
+        'ESTP': 'Your description here for ESTP...',
+        'ESFP': 'Your description here for ESFP...',
+    }
+
+    description = mbti_descriptions.get(MBTI, 'No description available.')
+
+    return Point, MBTI, description
+
+
+    
 
 
 
