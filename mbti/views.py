@@ -16,6 +16,8 @@ pipe = pipe.to("cpu")
 def home(request):
     return render(request, 'mbti/home.html')
 
+
+
 @login_required(login_url='/users/login')
 def mbti_test(request):
     if request.method == 'POST':
@@ -60,6 +62,8 @@ def mbti_test(request):
         'gender_form': gender_form,
         'questions': questions
     })
+    
+    
 
 @login_required(login_url='/users/login')
 def mbti_result(request):
@@ -196,21 +200,6 @@ def calculate(answer,gender):
 
 
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 def article(request):
     posts = Post.objects.all().order_by('-created_at')  # โพสต์ล่าสุดก่อน
     return render(request, 'mbti/article.html', {'posts': posts})
@@ -228,6 +217,8 @@ def article_writing(request):
         form = PostForm()
     return render(request, 'mbti/article_writing.html', {'form': form})
 
+
+
 @login_required
 def article_history(request):
     user_posts = Post.objects.filter(user=request.user).order_by('-created_at')
@@ -243,11 +234,13 @@ def search_posts(request):
     return render(request, 'mbti/article.html', {'posts': posts})
 
 
+
 @login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id, user=request.user)
     post.delete()
     return redirect('article_history')
+
 
 @login_required
 def edit_post(request, post_id):
