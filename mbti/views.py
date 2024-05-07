@@ -16,7 +16,8 @@ pipe = pipe.to("cpu")
 def home(request):
     return render(request, 'mbti/home.html')
 
-
+def about(request):
+    return render(request, 'mbti/about.html')
 
 @login_required(login_url='/users/login')
 def mbti_test(request):
