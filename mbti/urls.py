@@ -21,6 +21,7 @@ urlpatterns = [
     path('edit_post/<int:post_id>/', views.edit_post, name='edit_post'),
     
     path('about/', about ,name = 'about'),
+    path('<str:mbti_type>/', views.mbti_detail, name='mbti_detail'),
 
  
 ]

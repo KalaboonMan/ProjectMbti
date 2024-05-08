@@ -276,3 +276,9 @@ def edit_post(request, post_id):
     else:
         form = PostForm(instance=post)
     return render(request, 'mbti/edit_post.html', {'form': form})
+
+def mbti_detail(request, mbti_type):
+    type_detail = f'mbti/mbti_type/{mbti_type.upper()}.html'
+    return render(request, type_detail)
+
+
