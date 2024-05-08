@@ -2,39 +2,47 @@
 {% block content %}
 
 <body>
-    <div class="container mx-auto mt-10 text-center">
-        <div class="flex justify-center gap-4 mb-5">
-            <button id="model1-btn" class="bg-white hover:bg-gray-300 text-black font-bold py-2 px-4 rounded focus:outline-none" data-model="model1">วิธีการคำนวณ</button>
-            <button id="model2-btn" class="bg-white hover:bg-gray-300 text-black font-bold py-2 px-4 rounded focus:outline-none" data-model="model2">โมเดล AI ที่นำมาใช้</button>
-        </div>
-        <div id="model1-content" class="hidden">
-            <h1 class="text-xl font-bold">Model 1</h1>
-            <p>รายละเอียดเกี่ยวกับ Model 1...</p>
-        </div>
-        <div id="model2-content" class="hidden">
-            <h1 class="text-xl font-bold">Model 2</h1>
-            <p>รายละเอียดเกี่ยวกับ Model 2...</p>
-        </div>
-    </div>
+    <div class="flex flex-col items-center justify-center text-center mx-auto py-10 ">
+        <div class="w-full max-w-4xl bg-white rounded-lg border border-gray-300  ">
+            <div class="flex flex-col items-start justify-start text-left px-24 py-8">
+                <div class="container mx-auto mt-10 text-center">
+                    <div class="flex justify-center gap-4 mb-8">
+                        <button id="model1-btn" class="bg-white hover:bg-gray-300 text-black font-bold py-2 px-8 rounded focus:outline-none" data-model="model1">วิธีการคำนวณ</button>
+                        <button id="model2-btn" class="bg-white hover:bg-gray-300 text-black font-bold py-2 px-8 rounded focus:outline-none" data-model="model2">โมเดล AI ที่นำมาใช้</button>
+                    </div>
+                    <div class="flex flex-col items-start justify-start text-left">
+                        <div id="model1-content" class="hidden">
+                            <h1 class="text-xl font-bold">Model 1</h1>
+                            <p>รายละเอียดเกี่ยวกับ Model 1...</p>
+                        </div>
+                        <div id="model2-content" class="hidden">
+                            <h1 class="text-xl font-bold">Model 2</h1>
+                            <p>รายละเอียดเกี่ยวกับ Model 2...</p>
+                        </div>
+                    </div>    
+                </div>
 
-    <script>
-        const buttons = document.querySelectorAll('button[data-model]');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // ลบสถานะการใช้งานจากทุกปุ่มและซ่อนเนื้อหาทั้งหมด
-                buttons.forEach(b => {
-                    b.classList.remove('bg-gray-300');
-                    b.classList.add('bg-white');
-                    document.getElementById(b.dataset.model + '-content').classList.add('hidden');
-                });
-                
-                // เพิ่มสถานะการใช้งานให้กับปุ่มที่ถูกคลิกและแสดงเนื้อหาของมัน
-                this.classList.remove('bg-white');
-                this.classList.add('bg-gray-300');
-                document.getElementById(this.dataset.model + '-content').classList.remove('hidden');
-            });
-        });
-    </script>
+                <script>
+                    const buttons = document.querySelectorAll('button[data-model]');
+                    buttons.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            // ลบสถานะการใช้งานจากทุกปุ่มและซ่อนเนื้อหาทั้งหมด
+                            buttons.forEach(b => {
+                                b.classList.remove('bg-gray-300');
+                                b.classList.add('bg-white');
+                                document.getElementById(b.dataset.model + '-content').classList.add('hidden');
+                            });
+                            
+                            // เพิ่มสถานะการใช้งานให้กับปุ่มที่ถูกคลิกและแสดงเนื้อหาของมัน
+                            this.classList.remove('bg-white');
+                            this.classList.add('bg-gray-300');
+                            document.getElementById(this.dataset.model + '-content').classList.remove('hidden');
+                        });
+                    });
+                </script>
+            </div>
+        </div> 
+    </div>       
 </body>
    
 
