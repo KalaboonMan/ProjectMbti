@@ -9,7 +9,7 @@ import os
 from django.contrib.auth import get_user_model
 
 pipe = DiffusionPipeline.from_pretrained("Ojimi/anime-kawai-diffusion")
-pipe = pipe.to("cpu")
+pipe = pipe.to("cuda")
 
 
     

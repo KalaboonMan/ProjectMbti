@@ -1,9 +1,28 @@
 .background-home {
-    height: 600px;
-    background-image: url('../images/bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-  }
+
+  height: 600px;
+  background-image: url('../images/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+
+
+/* Ensure the container for the image centers the image */
+.image-center {
+  text-align: center;
+  width: 100%;
+}
+
+/* Ensures images within the .image-center class are scaled properly */
+.image-center img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensures text in the text-block class is aligned to the left */
+.text-block {
+  text-align: left;
+}
 
