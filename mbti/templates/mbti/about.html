@@ -1,19 +1,51 @@
 {% extends 'MBTI/components/base.html/' %}
+{% load static %}
 {% block content %}
 
 <body>
     <div class="flex flex-col items-center justify-center text-center mx-auto py-10 ">
-        <div class="w-full max-w-4xl bg-white rounded-lg border border-gray-300  ">
+        <div class="w-full max-w-6xl bg-white rounded-lg border border-gray-300  ">
             <div class="flex flex-col items-start justify-start text-left px-24 py-8">
                 <div class="container mx-auto mt-10 text-center">
                     <div class="flex justify-center gap-4 mb-8">
-                        <button id="model1-btn" class="bg-white hover:bg-gray-300 text-black font-bold py-2 px-8 rounded focus:outline-none" data-model="model1">วิธีการคำนวณ</button>
-                        <button id="model2-btn" class="bg-white hover:bg-gray-300 text-black font-bold py-2 px-8 rounded focus:outline-none" data-model="model2">โมเดล AI ที่นำมาใช้</button>
+                        <button id="model1-btn" class="bg-white hover:bg-gray-300 text-black font-bold text-2xl py-2 px-8 rounded focus:outline-none" data-model="model1">วิธีการคำนวณ</button>
+                        <button id="model2-btn" class="bg-white hover:bg-gray-300 text-black font-bold text-2xl py-2 px-8 rounded focus:outline-none" data-model="model2">โมเดล AI ที่นำมาใช้</button>
                     </div>
                     <div class="flex flex-col items-start justify-start text-left">
                         <div id="model1-content" class="hidden">
-                            <h1 class="text-xl font-bold">Model 1</h1>
-                            <p>รายละเอียดเกี่ยวกับ Model 1...</p>
+                            <h1 class="text-xl font-bold">ขั้นตอนการจัดเก็บคะแนน</h1>
+                            <p>1.ระบุข้อคำถามและตัวเลือกที่ผู้ใช้เลือก</p>
+                            <p>ในแต่ละข้อคำถามจะมีตัวเลือก A, B, และคำถาม C ที่มีทั้งหมด 2 ข้อ(ข้อที่ 7 กับข้อที่ 25) ซึ่งแต่ละตัวเลือกจะสัมพันธ์กับคุณลักษณะบุคลิกภาพหนึ่งใน MBTI คือ E(Extraversion), I(Introversion), S(Sensing), N(Intuition), T(Thinking), F(Feeling), J(Judging), หรือ P(Perceiving)</p>
+                            <br>
+                            <p>2.การจัดเก็บคะแนนตามตัวเลือก</p>
+                            <p>แต่ละตัวเลือกในข้อคำถามมีคะแนนที่กำหนดไว้สำหรับบุคลิกภาพที่สอดคล้องกัน (เช่น, E = 3A มีค่า 2 คะแนน, I =  3 มีค่า 2 คะแนน) และข้อ 25 มีความพิเศษนอกเหนือจากข้ออื่นเพราะ จะสามารถเลือกคำตอบได้ทั้งหมด 2 ข้อ จากตัวเลือกที่มี 3 ตัวเลือก ผู้ใช้ทำการเลือกตัวเลือกที่ตรงกับวิธีคิดหรือพฤติกรรมของตนเอง และคะแนนจากตัวเลือกนั้นจะถูกบันทึกไว้ในคอลัมน์ที่สัมพันธ์กับบุคลิกภาพนั้นๆ</p>
+                            <br>
+                            <div class="image-center mx-auto my-8" style="text-align: center;">
+                                <img src="{% static 'images/scoreMBTI.png' %}" alt="scoreMBTI" style="max-width: 100%; height: auto;">
+                            </div>
+                            <h1 class="text-xl font-bold">ขั้นตอนการประมวลผลคะแนน</h1>
+                            <p>1.การรวมคะแนนสำหรับแต่ละคุณลักษณะ</p>
+                            <p>หลังจากที่ผู้ใช้ตอบคำถามครบทั้งหมด คะแนนจะถูกรวมสำหรับแต่ละคุณลักษณะ (E, I, S, N, T, F, J, P) และเปรียบเทียบคะแนนระหว่างคุณลักษณะที่เป็นคู่กัน (เช่น E กับ I, S กับ N, T กับ F, J กับ P) เพื่อหาว่าคะแนนของคุณลักษณะใดสูงกว่า</p>
+                            <br>
+                            <p>2.การตัดสินใจเลือกบุคลิกภาพ</p>
+                            <p>บุคลิกภาพที่มีคะแนนสูงสุดในแต่ละคู่จะเป็นตัวแทนของบุคลิกภาพในด้านนั้น (เช่น ถ้าคะแนน E > I, แสดงว่าผู้ใช้มีความเป็น Extrovert)</p>
+                            <br>
+                            <h1 class="text-xl font-bold">ขั้นตอนการจัดการกรณีคะแนนเท่ากัน</h1>
+                            <p>ในกรณีที่คะแนนระหว่างสองคุณลักษณะในคู่เท่ากัน (เช่น ผลรวมคะแนน E = คะแนน I) ก็จะมีเกณฑ์การตัดสินใจดังนี้</p>
+                            <p>-ระหว่าง E กับ I ถ้าคะแนนเท่ากัน ให้ปรับเป็นบุคลิกภาพ I เลย</p>
+                            <p>-ระหว่าง S กับ N ถ้าคะแนนเท่ากัน ให้ปรับเป็นบุคลิกภาพ N เลย</p>
+                            <p>-ระหว่าง T กับ F ถ้าคะแนนเท่ากัน แล้วผู้ใช้ได้เลือกคำตอบเป็นเพศชายจะปรับเป็นบุคลิกภาพ T ถ้าหาก ผู้ใช้ได้เลือกคำตอบเป็นเพศหญิงจะปรับเป็นบุคลิกภาพ F</p>
+                            <p>-ระหว่าง J กับ P ถ้าคะแนนเท่ากัน ให้ปรับเป็นบุคลิกภาพ P เลย</p>
+                            <br>
+                            <h1 class="text-xl font-bold">ขั้นตอนการสรุปผล</h1>
+                            <p>คุณลักษณะที่มีคะแนนสูงสุดในแต่ละคู่จะรวมกันเป็นชุดอักษร 4 ตัว (เช่น INFP, ESTJ, หรืออื่นๆ) ชุดอักษรนี้แสดงถึงบุคลิกภาพของผู้ใช้ตามที่ได้แสดงผ่านการตอบคำถามในแบบทดสอบ</p>
+                            <br>
+                            <h1 class="text-xl font-bold">การให้คำแนะนำเพิ่มเติม</h1>
+                            <p>หลังจากได้ผลลัพธ์บุคลิกภาพแล้ว สามารถอ่านเพิ่มเติมเกี่ยวกับบุคลิกของตัวเองหรือผู้อื่นได้ที่ <a href="{% url 'home' %}" class="underline text-blue-600 hover:text-blue-800">หน้าแรก</a> ได้เลย</p>
+                            <br>
+                            <h2 class="font-bold">แหล่งข้อมูลอ้างอิงที่นำมาใช้ประกอบแบบทดสอบ</h2>
+                            <p>1. www.wedgworthleadership.com/wp-content/uploads/2016/08/Myers-Briggs-Personality-Test.pdf</p>
+
                         </div>
                         <div id="model2-content" class="hidden">
                             <h1 class="text-xl font-bold">Model 2</h1>
