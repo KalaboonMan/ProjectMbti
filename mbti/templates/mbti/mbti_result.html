@@ -74,6 +74,39 @@
                     <button class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2"onclick="copyURLToClipboard('{{ full_url }}')">SHARE</button>
 
                 </div>
+                <script>
+                    document.getElementById('imageForm').addEventListener('submit', function(e) {
+                        e.preventDefault(); // หยุดการรีเฟรชหน้าเมื่อส่งฟอร์ม
+                        var formData = new FormData(this);
+                    
+                        // อัปเดตผู้ใช้เกี่ยวกับสถานะการโหลด
+                        document.getElementById('loadingStatus').innerText = 'กำลังสร้างรูปภาพ...';
+                    
+                        fetch('mbti_result', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                document.getElementById('resultImage').src = data.image_url;
+                                document.getElementById('loadingStatus').innerText = 'การสร้างรูปเสร็จสิ้น!';
+                            } else {
+                                document.getElementById('loadingStatus').innerText = 'การสร้างรูปล้มเหลว: ' + data.error;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            document.getElementById('loadingStatus').innerText = 'เกิดข้อผิดพลาดในการสร้างรูป';
+                        });
+                    });
+                    document.getElementById('shareButton').addEventListener('click', function()  {
+                    copyURLToClipboard('{{ full_url }}'); 
+                    }); 
+                </script>
             </div>
         </div>
     </div>
@@ -89,7 +122,7 @@
     }
     function submitForm() {
         
-        document.getElementById('message').innerText = 'กำลังสร้าง...(5-6นาที)';  // ข้อความที่จะแสดง
+        document.getElementById('message').innerText = 'กำลังสร้าง...';  // ข้อความที่จะแสดง
     
         }
 </script>

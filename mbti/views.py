@@ -101,6 +101,7 @@ def mbti_result(request):
         user_answers.image_path = image_path
         user_answers.save()
         return redirect('mbti_result')
+    
     # ตั้งค่าจุดเริ่มต้นสำหรับการคำนวณคะแนน
 
     full_url = request.build_absolute_uri()
