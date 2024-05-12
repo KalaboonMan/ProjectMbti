@@ -107,23 +107,24 @@
                     copyURLToClipboard('{{ full_url }}'); 
                     }); 
                 </script>
+                <script>
+                    function copyURLToClipboard(url) {
+                        navigator.clipboard.writeText(url).then(() => {
+                            alert('URL copied to clipboard!');
+                        }).catch(err => {
+                            console.error('Failed to copy:', err);
+                        });
+                    }
+                    function submitForm() {
+                        
+                        document.getElementById('message').innerText = 'กำลังสร้าง...';  // ข้อความที่จะแสดง
+                    
+                        }
+                </script>
             </div>
         </div>
     </div>
   </div>
 </body>
-<script>
-    function copyURLToClipboard(url) {
-        navigator.clipboard.writeText(url).then(() => {
-            alert('URL copied to clipboard!');
-        }).catch(err => {
-            console.error('Failed to copy:', err);
-        });
-    }
-    function submitForm() {
-        
-        document.getElementById('message').innerText = 'กำลังสร้าง...';  // ข้อความที่จะแสดง
-    
-        }
-</script>
+
 {% endblock %}  
