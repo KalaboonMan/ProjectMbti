@@ -28,7 +28,7 @@
                 <p>1. www.getrealme.com</p>
                 <p>2. www.mbtionline.com/</p>
             </div>
-        
+            
             <div class="w-1/2">
                 <form method="POST">
                     {% csrf_token %}
@@ -59,6 +59,12 @@
                     </select>
                     <br>    
                     <br>
+                    <label for="model-select">Choose a model:</label>
+                    <select name="model" id="model">
+                        <option value="diffpipe">Ojimi/anime-kawai-diffusion</option>
+                        <option value="dreamlikeanime">Dreamlike-Anime</option>
+                        <option value="dreamlikephotoreal">dreamlike-Art</option>
+                    </select>
                     <!-- <input type="text" name="prompt" id="prompt" class=" border-2 border-orange-500 bg-gray-100 rounded-lg p-1" placeholder="1boy,teacher,career,blue hair,full body"> -->
                     <button  onclick="submitForm()" class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
                 </form>
@@ -74,39 +80,7 @@
                     <button class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2"onclick="copyURLToClipboard('{{ full_url }}')">SHARE</button>
 
                 </div>
-                <script>
-                    document.getElementById('imageForm').addEventListener('submit', function(e) {
-                        e.preventDefault(); // หยุดการรีเฟรชหน้าเมื่อส่งฟอร์ม
-                        var formData = new FormData(this);
-                    
-                        // อัปเดตผู้ใช้เกี่ยวกับสถานะการโหลด
-                        document.getElementById('loadingStatus').innerText = 'กำลังสร้างรูปภาพ...';
-                    
-                        fetch('mbti_result', {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRFToken': '{{ csrf_token }}'
-                            },
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                document.getElementById('resultImage').src = data.image_url;
-                                document.getElementById('loadingStatus').innerText = 'การสร้างรูปเสร็จสิ้น!';
-                            } else {
-                                document.getElementById('loadingStatus').innerText = 'การสร้างรูปล้มเหลว: ' + data.error;
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            document.getElementById('loadingStatus').innerText = 'เกิดข้อผิดพลาดในการสร้างรูป';
-                        });
-                    });
-                    document.getElementById('shareButton').addEventListener('click', function()  {
-                    copyURLToClipboard('{{ full_url }}'); 
-                    }); 
-                </script>
+                
                 <script>
                     function copyURLToClipboard(url) {
                         navigator.clipboard.writeText(url).then(() => {

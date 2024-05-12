@@ -3,18 +3,60 @@ from .models import *
 from app_users.models import *
 from django.contrib.auth.decorators import login_required
 from .forms import *
-from diffusers import DiffusionPipeline
+from diffusers import DiffusionPipeline,StableDiffusionPipeline
 from io import BytesIO
 import os
+import torch
 from django.contrib.auth import get_user_model
 from django.http import Http404
 
 
-pipe = DiffusionPipeline.from_pretrained("Ojimi/anime-kawai-diffusion")
-pipe = pipe.to("cuda")
 
+
+def diffpipe(prompt,user):
+    pipe = DiffusionPipeline.from_pretrained("Ojimi/anime-kawai-diffusion")
+    pipe = pipe.to("cuda")  
+    image = pipe(prompt, negative_prompt="lowres, bad anatomy, inappropriate content, explicit, suggestive").images[0]
+    img_io = BytesIO()
+    image.save(img_io, format='JPEG')
+    image_filename = f'{user.username}.jpg'
+
+    image_path = os.path.join('media/ai_image', image_filename)
+    image.save(image_path)
 
     
+    return image_path
+
+def dreamlikeanime(prompt,user):
+    model_id = "dreamlike-art/dreamlike-anime-1.0"
+    pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+    pipe = pipe.to("cuda")   
+    
+    image = pipe(prompt, negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry').images[0]
+    img_io = BytesIO()
+    image.save(img_io, format='JPEG')
+    image_filename = f'{user.username}.jpg'
+
+    image_path = os.path.join('media/ai_image', image_filename)
+    image.save(image_path)
+
+    
+    return image_path
+
+def dreamlikephotoreal(prompt,user):
+    model_id = "dreamlike-art/dreamlike-photoreal-2.0"
+    pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+    pipe = pipe.to("cuda")   
+    image = pipe(prompt, negative_prompt="lowres, bad anatomy, inappropriate content, explicit, suggestive").images[0]
+    img_io = BytesIO()
+    image.save(img_io, format='JPEG')
+    image_filename = f'{user.username}.jpg'
+
+    image_path = os.path.join('media/ai_image', image_filename)
+    image.save(image_path)
+
+    
+    return image_path
 def home(request):
     return render(request, 'mbti/home.html')
 
@@ -87,16 +129,16 @@ def mbti_result(request):
         prompt_3 = request.POST.get('hair')
         prompt_4 = request.POST.get('skin')
         prompt = gender +","+prompt_2+","+prompt_3+","+prompt_4+","+'career'+","+'solo'+","+'cute'+","+'full body'
-        
-       
+        model = request.POST.get('model')
+        image_path = ''
+        if model == 'diffpipe':
+            image_path = diffpipe(prompt,request.user)
 
-        image = pipe(prompt, negative_prompt="lowres, bad anatomy, inappropriate content, explicit, suggestive").images[0]
-        img_io = BytesIO()
-        image.save(img_io, format='JPEG')
-        image_filename = f'{request.user.username}.jpg'
+        elif model == 'dreamlikeanime':
+            image_path = dreamlikeanime(prompt,request.user)
 
-        image_path = os.path.join('media/ai_image', image_filename)
-        image.save(image_path)
+        elif model == 'dreamlikephotoreal':
+            image_path = dreamlikephotoreal(prompt,request.user)    
 
         user_answers.image_path = image_path
         user_answers.save()
