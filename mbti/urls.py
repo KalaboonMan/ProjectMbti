@@ -22,6 +22,7 @@ urlpatterns = [
     
     path('about/', about ,name = 'about'),
     path('<str:mbti_type>/', views.mbti_detail, name='mbti_detail'),
+    path('delete_postADMIN/<int:post_id>/', delete_postADMIN, name='delete_postADMIN'),
 
  
 ]

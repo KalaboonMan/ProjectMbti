@@ -8,7 +8,7 @@ from io import BytesIO
 import os
 import torch
 from django.contrib.auth import get_user_model
-from django.http import Http404
+from django.http import Http404, HttpResponse
 
 
 
@@ -340,3 +340,11 @@ def mbti_detail(request, mbti_type):
         # หาก mbti_type ไม่ตรงกับรายการที่มีอยู่ ให้ส่งข้อผิดพลาด 404 กลับไปยังผู้ใช้
         raise Http404("MBTI type not found.")
 
+
+def delete_postADMIN(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.user.is_superuser:
+        post.delete()
+        return redirect('article')  
+    else:
+        return HttpResponse("Unauthorized", status=401)
