@@ -33,34 +33,58 @@
                 <form method="POST">
                     {% csrf_token %}
                     <!-- ตัวอย่าง HTML สำหรับ dropdown menu -->
-                    <label  for="myDropdown">เลือกอาชีพ:</label>
-                    <select id="myDropdown" name="career">
+                    <label  for="careerDropdown">เลือกอาชีพ:</label>
+                    <select id="careerDropdown" name="career" onchange="saveSelection('career', this.value)">
                         <option value="Police">ตำรวจ</option>
                         <option value="doctor">แพทย์</option>
                         <option value="engineer">วิศวกร</option>
                         <option value="soldier">ทหาร</option>
                     </select>
                     <br>
-                    <label  for="myDropdown">เลือกสีผม:</label>
-                    <select id="myDropdown" name="hair">
-                        <option value="red hair">แดง</option>
-                        <option value="black hair">ดำ</option>
-                        <option value="white hair">ขาว</option>
-                        <option value="yellow hair">เหลือง</option>
+                    <label  for="hairColorDropdown">เลือกสีผม:</label>
+                    <select id="hairColorDropdown" name="hair" onchange="saveSelection('hair', this.value)">
+                        <option value="red hair" style="color: rgb(255, 0, 0);" >███</option>
+                        <option value="dark hair" style="color: rgb(0, 0, 0);" >███</option>
+                        <option value="white hair" style="color: rgb(255, 255, 255);" >███</option>
+                        <option value="yellow hair" style="color: rgb(255, 234, 0);" >███</option>
+                        <option value="orange hair" style="color: rgb(251, 110, 3);" >███</option>
+                        <option value="gray hair" style="color: rgb(101, 101, 101);" >███</option>
+                        <option value="brown hair" style="color: rgb(139, 69, 4);" >███</option>
+                        <option value="pink hair" style="color: rgb(242, 19, 213);" >███</option>
+                        <option value="green hair" style="color: rgb(44, 142, 8);" >███</option>
+                        <option value="blue hair" style="color: rgb(0, 98, 255);" >███</option>
                     </select>
                     <br>
-                    <label  for="myDropdown">เลือกสีผิว:</label>
-                    <select id="myDropdown" name="skin">
-                        <option value="fair skin ">ขาว</option>
-                        <option value="warm skin">ขาวเหลือง</option>
-                        <option value="dark skin">เข้ม</option>
-                    
-
+                    <label  for="skinColorDropdown">เลือกสีผิว:</label>
+                    <select id="skinColorDropdown" name="skin" onchange="saveSelection('skin', this.value)">
+                        <option value="white skin " style="color: rgb(255, 231, 205);" >███</option>
+                        <option value="warm skin " style="color: rgb(244, 186, 119);" >███</option>
+                        <option value="dark skin " style="color: rgb(80, 49, 15);" >███</option>
+                        
                     </select>
+                    <script>
+                        function saveSelection(key, value) {
+                            localStorage.setItem(key, value);
+                        }
+                        window.onload = function() {
+                            var selects = [
+                                {key: 'career', id: 'careerDropdown'},
+                                {key: 'hair', id: 'hairColorDropdown'},
+                                {key: 'skin', id: 'skinColorDropdown'},
+                                {key: 'model', id: 'modelDropdown'}
+                            ];
+                            selects.forEach(function(item) {
+                                var value = localStorage.getItem(item.key);
+                                if (value) {
+                                    document.getElementById(item.id).value = value;
+                                }
+                            });
+                        };
+                    </script>
                     <br>    
                     <br>
-                    <label for="model-select">Choose a model:</label>
-                    <select name="model" id="model">
+                    <label for="modelDropdown">Choose a model:</label>
+                    <select name="model" id="modelDropdown" onchange="saveSelection('model', this.value)">
                         <option value="diffpipe">Ojimi/anime-kawai-diffusion</option>
                         <option value="dreamlikeanime">Dreamlike-Anime</option>
                         <option value="dreamlikephotoreal">dreamlike-Art</option>
@@ -73,8 +97,34 @@
                 <div id="message"></div>
                 <br>
                 <div style="display: flex; justify-content: center; align-items: center;">
-                    <img src="../media/ai_image/{{user.username}}.jpg" alt="{{user.username}}" style="max-width: 35%; height: auto;">
+                    <img src="../media/ai_image/{{user.username}}.jpg" alt="{{user.username}}" style="max-width: 35%; height: 40%;">
                 </div>
+                <form id="imageForm" method="POST">
+                    <!-- ฟอร์มข้อมูลต่างๆ -->
+                    <button type="submit">สร้าง</button>
+                </form>
+                <img id="resultImage" src="placeholder.jpg" alt="Generated Image">
+                
+                <script>
+                document.getElementById('imageForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // ป้องกันการรีเฟรชหน้า
+                
+                    var formData = new FormData(this);
+                
+                    fetch('/path/to/your/image/generation/api', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.imageURL) {
+                            document.getElementById('resultImage').src = data.imageURL;
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+                </script>
+                
                 <br>
                 <div class="result-section">
                     <button class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2"onclick="copyURLToClipboard('{{ full_url }}')">SHARE</button>

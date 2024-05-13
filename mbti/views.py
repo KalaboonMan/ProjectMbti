@@ -128,8 +128,9 @@ def mbti_result(request):
         prompt_2 = request.POST.get('career')
         prompt_3 = request.POST.get('hair')
         prompt_4 = request.POST.get('skin')
-        prompt = gender +","+prompt_2+","+prompt_3+","+prompt_4+","+'career'+","+'solo'+","+'cute'+","+'full body'
+        prompt = gender +","+prompt_2+","+prompt_3+","+prompt_4+","+'solo'+","'portrait'
         model = request.POST.get('model')
+        print(prompt)
         image_path = ''
         if model == 'diffpipe':
             image_path = diffpipe(prompt,request.user)
