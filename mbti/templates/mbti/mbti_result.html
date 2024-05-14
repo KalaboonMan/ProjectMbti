@@ -35,10 +35,9 @@
                     <!-- ตัวอย่าง HTML สำหรับ dropdown menu -->
                     <label  for="careerDropdown">เลือกอาชีพ:</label>
                     <select id="careerDropdown" name="career" onchange="saveSelection('career', this.value)">
-                        <option value="Police">ตำรวจ</option>
-                        <option value="doctor">แพทย์</option>
-                        <option value="engineer">วิศวกร</option>
-                        <option value="soldier">ทหาร</option>
+                        {% for thai_career, eng_career in careers_option.items %}
+                        <option value="{{ eng_career }}">{{ thai_career }}</option>
+                    {% endfor %}
                     </select>
                     <br>
                     <label  for="hairColorDropdown">เลือกสีผม:</label>

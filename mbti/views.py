@@ -57,6 +57,98 @@ def dreamlikephotoreal(prompt,user):
 
     
     return image_path
+
+    
+    
+
+@login_required(login_url='/users/login')
+def mbti_result(request):
+    try:
+        user_answers = UserAnswer.objects.filter(user=request.user).latest('id')
+    except UserAnswer.DoesNotExist:
+        # If no answers exist, inform the user to take the test
+        return render(request, 'mbti/mbti_result.html', {
+            'message': 'โปรดทำแบบทดสอบก่อน'
+        })
+    gender = user_answers.gender
+    all_answers = user_answers.answers.split(',')
+    Point,MBTI, description,careers = calculate(all_answers,gender)
+    if request.method == 'POST' :
+        
+      
+        prompt_2 = request.POST.get('career')
+        print("Received career choice:", prompt_2)
+        prompt_3 = request.POST.get('hair')
+        prompt_4 = request.POST.get('skin')
+        prompt = gender +","+prompt_2+","+prompt_3+","+prompt_4+","+'solo'+","'upper body'+","'detailed portrait'
+        model = request.POST.get('model')
+        print(prompt)
+        image_path = ''
+        if model == 'diffpipe':
+            image_path = diffpipe(prompt,request.user)
+
+        elif model == 'dreamlikeanime':
+            image_path = dreamlikeanime(prompt,request.user)
+
+        elif model == 'dreamlikephotoreal':
+            image_path = dreamlikephotoreal(prompt,request.user)    
+
+        user_answers.image_path = image_path
+        user_answers.save()
+        return redirect('mbti_result')
+    
+    careers_option = {
+        'INTJ': {'ที่ปรึกษาธุรกิจ':'Business consultant', 'ผู้กำกับภาพยนตร์':'Film director', 'ทนายความ':'Lawyer', 'นักเขียน':'Writer', 'ผู้ประกอบการ':'Entrepreneur', 'วิศวกร':'Engineer', 'โปรแกรมเมอร์คอมพิวเตอร์':'Computer programmer', 'นักออกแบบเว็บ':'Web designer', 'นักออกแบบกราฟิก':'Graphic designer', 'ผู้จัดการโรงแรมหรือการบริการ':'Hotel or hospitality manager'},
+        'ISFJ': {'ผู้ช่วยธุรการ':'Administrative assistant', 'ผู้จัดการสำนักงาน':'Office manager', 'ผู้วางแผนกิจกรรม':'Event planner', 'นักสังคมสงเคราะห์':'Social worker', 'นักดูแลสุขภาพ':'Healthcare', 'ครู':'Teacher', 'ที่ปรึกษาด้านแนะแนว':'Guidance counselor', 'ที่ปรึกษาด้านอาชีพ':'Career counselor', 'นักดูแลผู้สูงอายุ':'Elder care', 'ผู้ช่วยส่วนตัว':'Personal assistant', 'ฝ่ายบริการลูกค้า':'Customer service'},
+        'INTP': {'สถาปนิก':'Architecture', 'นักโฆษณา':'Advertiser', 'ศิลปิน':'Artist', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'นักพัฒนาองค์กร':'Organizational developer', 'นักจัดการการเปลี่ยนแปลง':'Change management', 'ที่ปรึกษา':'Consultant', 'วิศวกร':'Engineer', 'นักวิเคราะห์การเงินหรือที่ปรึกษาด้านการเงิน':'Financial analyst or advisor', 'นักเขียนสำหรับโทรทัศน์หรือภาพยนตร์':'Television or film writer', 'นักออกแบบ':'Designer', 'นักพัฒนาซอฟต์แวร์':'Software developer'},
+        'ENTJ': {'ผู้จัดการ':'Management', 'โค้ช':'Coach', 'อาจารย์มหาวิทยาลัย':'College or university teacher', 'FBI':'FBI', 'ผู้พิพากษา':'Criminal justice', 'ผู้ประกอบการ':'Entrepreneur', 'ผู้บริหารธุรกิจ':'Business executive', 'วิศวกร':'Engineer', 'ฝ่ายขายและการตลาด':'Sales and marketing', 'ผู้จัดการโปรแกรม':'Program manager'},
+        'ENTP': {'ทนายความ':'Lawyer', 'นักเขียน':'Writer', 'นักภาษาศาสตร์':'Linguistics', 'นักจิตวิทยา':'Psychologist', 'ทรัพยากรบุคคล':'Human resources', 'นักพูดสาธารณะ':'Public speaker', 'นักการเมือง':'Politician', 'นักจิตวิทยาโรงเรียน':'School psychologist', 'ผู้ประกาศข่าว':'Radio or TV personality', 'ศาสตราจารย์':'Professor ', 'วิศวกร':'Engineer'},
+        'INFJ': {'นักเคลื่อนไหวความยุติธรรมด้านสิ่งแวดล้อม':'Environmental Activist', 'ครู':'Teacher', 'นักบำบัดด้วยศิลปะ':'Art therapist', 'ที่ปรึกษา':'Counselor', 'นักสังคมสงเคราะห์':'Social worker', 'บรรณารักษ์':'Librarian', 'นักเขียน':'Writer', 'เทรนเนอร์':'Trainer ', 'จิตแพทย์':'Psychiatrist', 'สัตวแพทย์':'Veterinarian', 'ผู้ให้บริการดูแลเด็ก':'Childcare provider', 'องค์กรไม่แสวงหากำไร':'Nonprofit'},
+        'INFP': {'นักเขียน':'Writer', 'จิตรกร':'Artist', 'ผู้เชี่ยวชาญด้านสุขภาพจิต':'Mental health professional', 'ที่ปรึกษา':'Counselor', 'ผู้ดูแลพิพิธภัณฑ์':'Museum curator', 'นักออกแบบกราฟิก':'Graphic designer', 'ช่างภาพ':'Photographer', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'นักการตลาด':'Marketing'},
+        'ENFJ': {'พนักงานทะเบียนนักศึกษา':'College recruiter', 'ที่ปรึกษาด้านอาชีพ':'Career counselor', 'ที่ปรึกษา':'Counselor', 'นักพูดเพื่อแรงบันดาลใจ':'Motivational speaker', 'ผู้พัฒนาการเป็นผู้นำ':'Leadership developer', 'ครู':'Teacher', 'ผู้ระดมทุน':'Fundraiser', 'ผู้อำนวยการฝ่ายศิษย์เก่า':'Alumni director', 'ผู้ฝึกอบรมและพัฒนา':'Training and developer', 'เทรนเนอร์':'Fitness instructor or health coach', 'นักสังคมสงเคราะห์':'Social worker'},
+        'ENFP': {'นักแสดง':'Actor', 'ศิลปิน':'Artist', 'นักดนตรี':'Musician', 'ผู้ประกอบการ':'Entrepreneur ', 'นักเขียน':'Author', 'นักพูดเพื่อแรงบันดาลใจ':'Motivational speaker', 'ทนายความ':'Lawyer', 'นักการตลาด':'Marketing', 'ทรัพยากรบุคคล':'Human resources', 'ที่ปรึกษาด้านอาชีพ':'Counselor or career counselor', 'ครู':'Teacher', 'โค้ชหรือผู้ฝึกสอน':'Coach or trainer', 'องค์กรไม่แสวงหากำไร':'Nonprofit', 'สตาร์ทอัพ':'Startups'},
+        'ISTJ': {'นายธนาคาร':'Banker', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'นักบัญชี':'Accountant', 'ตัวแทนประกันภัย':'Insurance agent ', 'ผู้จัดการ':'Management', 'ผู้จัดการโปรเจกต์':'Project manager', 'โปรแกรมเมอร์':'Computer programmer', 'นักพัฒนาระบบ':'Systems developer', 'ทหาร':'Military', 'ผู้บังคับใช้กฎหมาย':'Law enforcement'},
+        'ESTJ': {'ฝ่ายสรรหาบุคลากร':'Recruitment', 'ผู้บังคับใช้กฎหมาย':'Law Enforcement', 'การจัดการธุรกิจ':'Business Management', 'ประธานบริษัท':'CEO (Chief Executive Officer)', 'ทนาย':'Lawyer', 'นักจิตวิทยาในองค์กร':'Organizational Psychology', 'ผู้ประกอบการ':'Entrepreneur', 'นักบัญชี':'Accountant', 'นักการเงิน':'Financer', 'โค้ช':'Coach'},
+        'ESFJ': {'ทรัพยากรบุคคล':'Human resources', 'ที่ปรึกษา':'Counselor', 'พยาบาล':'Nurse', 'แพทย์':'Medicine', 'นักสังคมสงเคราะห์':'Social worker', 'ผู้จัดการสำนักงาน':'Office manager', 'ที่ปรึกษาวิทยาลัย':'College advisor', 'ครู':'Teacher', 'ผู้พัฒนาหลักสูตร':'Curriculum developer', 'ช่างภาพ':'Photographer', 'ผู้จัดการด้านการดำเนินงาน':'Operations manager'},
+        'ISTP': {'ฝ่ายสนับสนุนทางเทคนิค':'Technical support', 'นักออกแบบผลิตภัณฑ์':'Product designer', 'วิศวกร':'Engineer', 'นักดับเพลิง':'Firefighter', 'เจ้าหน้าที่ตำรวจ':'Police', 'เจ้าหน้าที่การแพทย์ฉุกเฉิน':'Emergency medical technician (EMT)', 'ช่างเครื่อง':'Mechanic', 'ช่างไฟฟ้า':'Electrician', 'ฝ่ายการผลิต':'Manufacturing', 'ครูวิทยาศาสตร์':'Science teacher', 'เจ้าหน้าที่ป่าไม้':'Forest services'},
+        'ISFP': {'ผู้ช่วยส่วนตัว':'Personal assistant', 'นักเขียนขอทุน':'Grant writer', 'นักระดมทุน':'Fundraiser', 'องค์กรไม่แสวงหาผลกำไร':'Nonprofit', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'พยาบาล':'Nurse', 'ครู':'Teacher', 'ผู้บริหาร':'Administrator', 'นักสังคมสงเคราะห์':'Social worker'},
+        'ESTP': {'นักวิจัยทางการแพทย์':'Medical researcher', 'ฝ่ายการผลิต':'Manufacturing', 'นายหน้าหลักทรัพย์':'Stockbroker', 'นักข่าว':'Journalist', 'เจ้าหน้าที่การแพทย์ฉุกเฉิน':'Emergency medical technician (EMT)', 'เจ้าหน้าที่ตำรวจ':'Police', 'เจ้าของอสังหาริมทรัพย์':'Real estate', 'รัฐบาล':'Government', 'นักกีฬา':'Athlete', 'นักแสดง':'Actor'},
+        'ESFP': {'ผู้อำนวยการกิจกรรม':'Activities director', 'ผู้จัดการการมีส่วนร่วมของพนักงาน':'Employee engagement', 'ครู':'Teacher', 'ฝ่ายบริการลูกค้า':'Customer service', 'ที่ปรึกษาด้านแฟชั่น':'Fashion consultant', 'เจ้าหน้าที่การแพทย์ฉุกเฉิน':'Emergency medical technician (EMT)', 'เจ้าหน้าที่ตำรวจ':'Police', 'ผู้ประสานงานกิจกรรม':'Events coordinator', 'เจ้าของอสังหาริมทรัพย์':'Real estate', 'เจ้าหน้าที่อุทยานและนันทการ':'Parks and recreation'},
+    }
+    careers_option = careers_option.get(MBTI, [])
+
+    full_url = request.build_absolute_uri()
+    user = request.user
+    full_url = full_url.split('mbti_result')[0] +'share_result/'+ str(user.id)
+    context = {
+        'careers': careers,
+        "Point": Point,
+        "MBTI": MBTI,
+        'description': description,
+        'full_url': full_url,
+        'careers_option': careers_option
+    }
+
+    return render(request, 'mbti/mbti_result.html', context)
+
+def share_result(request,id):
+    User = get_user_model()
+    user = User.objects.get(pk = id)
+    user = UserAnswer.objects.filter(user=user).latest('id')
+    gender = user.gender
+    all_answers = user.answers.split(',')
+    Point,MBTI,description,careers = calculate(all_answers,gender)
+    full_url = request.build_absolute_uri()
+    context = {
+        'careers': careers,
+        'description': description,
+        'full_url': full_url,
+        'user' : user.user.username,
+        "Point": Point,
+        "MBTI": MBTI,
+    }
+    return render(request, 'mbti/share_result.html', context)
+
 def home(request):
     return render(request, 'mbti/home.html')
 
@@ -107,77 +199,6 @@ def mbti_test(request):
         'gender_form': gender_form,
         'questions': questions
     })
-    
-    
-
-@login_required(login_url='/users/login')
-def mbti_result(request):
-    try:
-        user_answers = UserAnswer.objects.filter(user=request.user).latest('id')
-    except UserAnswer.DoesNotExist:
-        # If no answers exist, inform the user to take the test
-        return render(request, 'mbti/mbti_result.html', {
-            'message': 'โปรดทำแบบทดสอบก่อน'
-        })
-    gender = user_answers.gender
-    all_answers = user_answers.answers.split(',')
-    Point,MBTI, description,careers = calculate(all_answers,gender)
-    if request.method == 'POST' :
-        
-      
-        prompt_2 = request.POST.get('career')
-        prompt_3 = request.POST.get('hair')
-        prompt_4 = request.POST.get('skin')
-        prompt = gender +","+prompt_2+","+prompt_3+","+prompt_4+","+'solo'+","'upper body'+","'detailed portrait'
-        model = request.POST.get('model')
-        print(prompt)
-        image_path = ''
-        if model == 'diffpipe':
-            image_path = diffpipe(prompt,request.user)
-
-        elif model == 'dreamlikeanime':
-            image_path = dreamlikeanime(prompt,request.user)
-
-        elif model == 'dreamlikephotoreal':
-            image_path = dreamlikephotoreal(prompt,request.user)    
-
-        user_answers.image_path = image_path
-        user_answers.save()
-        return redirect('mbti_result')
-    
-    # ตั้งค่าจุดเริ่มต้นสำหรับการคำนวณคะแนน
-
-    full_url = request.build_absolute_uri()
-    user = request.user
-    full_url = full_url.split('mbti_result')[0] +'share_result/'+ str(user.id)
-    context = {
-        'careers': careers,
-        "Point": Point,
-        "MBTI": MBTI,
-        'description': description,
-        'full_url': full_url,
-    }
-
-    return render(request, 'mbti/mbti_result.html', context)
-def share_result(request,id):
-    User = get_user_model()
-    user = User.objects.get(pk = id)
-    user = UserAnswer.objects.filter(user=user).latest('id')
-    gender = user.gender
-    all_answers = user.answers.split(',')
-    Point,MBTI,description,careers = calculate(all_answers,gender)
-    full_url = request.build_absolute_uri()
-    context = {
-        'careers': careers,
-        'description': description,
-        'full_url': full_url,
-        'user' : user.user.username,
-        "Point": Point,
-        "MBTI": MBTI,
-    }
-    return render(request, 'mbti/share_result.html', context)
-
-
 
 
 def calculate(answer,gender):
@@ -266,6 +287,7 @@ def calculate(answer,gender):
     careers = mbti_careers.get(MBTI, 'No careers listed.')
 
     return Point, MBTI, description, careers
+
 
 
     
