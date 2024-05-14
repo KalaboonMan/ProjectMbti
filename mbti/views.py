@@ -32,7 +32,7 @@ def dreamlikeanime(prompt,user):
     pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
     pipe = pipe.to("cuda")   
     
-    image = pipe(prompt, negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry').images[0]
+    image = pipe(prompt, negative_prompt = 'simple background, duplicate, retro style, low quality, lowest quality, 1980s, 1990s, 2000s, 2005 2006 2007 2008 2009 2010 2011 2012 2013, bad anatomy, bad proportions, extra digits, lowres, username, artist name, error, duplicate, watermark, signature, text, extra digit, fewer digits, worst quality, jpeg artifacts, blurry,inappropriate content, explicit, suggestive').images[0]
     img_io = BytesIO()
     image.save(img_io, format='JPEG')
     image_filename = f'{user.username}.jpg'
@@ -98,21 +98,36 @@ def mbti_result(request):
         return redirect('mbti_result')
     
     careers_option = {
-        'INTJ': {'ที่ปรึกษาธุรกิจ':'Business consultant', 'ผู้กำกับภาพยนตร์':'Film director', 'ทนายความ':'Lawyer', 'นักเขียน':'Writer', 'ผู้ประกอบการ':'Entrepreneur', 'วิศวกร':'Engineer', 'โปรแกรมเมอร์คอมพิวเตอร์':'Computer programmer', 'นักออกแบบเว็บ':'Web designer', 'นักออกแบบกราฟิก':'Graphic designer', 'ผู้จัดการโรงแรมหรือการบริการ':'Hotel or hospitality manager'},
-        'ISFJ': {'ผู้ช่วยธุรการ':'Administrative assistant', 'ผู้จัดการสำนักงาน':'Office manager', 'ผู้วางแผนกิจกรรม':'Event planner', 'นักสังคมสงเคราะห์':'Social worker', 'นักดูแลสุขภาพ':'Healthcare', 'ครู':'Teacher', 'ที่ปรึกษาด้านแนะแนว':'Guidance counselor', 'ที่ปรึกษาด้านอาชีพ':'Career counselor', 'นักดูแลผู้สูงอายุ':'Elder care', 'ผู้ช่วยส่วนตัว':'Personal assistant', 'ฝ่ายบริการลูกค้า':'Customer service'},
-        'INTP': {'สถาปนิก':'Architecture', 'นักโฆษณา':'Advertiser', 'ศิลปิน':'Artist', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'นักพัฒนาองค์กร':'Organizational developer', 'นักจัดการการเปลี่ยนแปลง':'Change management', 'ที่ปรึกษา':'Consultant', 'วิศวกร':'Engineer', 'นักวิเคราะห์การเงินหรือที่ปรึกษาด้านการเงิน':'Financial analyst or advisor', 'นักเขียนสำหรับโทรทัศน์หรือภาพยนตร์':'Television or film writer', 'นักออกแบบ':'Designer', 'นักพัฒนาซอฟต์แวร์':'Software developer'},
+        'INTJ': {'ที่ปรึกษาธุรกิจ':'company employee', 'ผู้กำกับภาพยนตร์':'Film director', 'ทนายความ':'Lawyer', 'นักเขียน':'Writer', 'ผู้ประกอบการ':'company employee', 'วิศวกร':'Engineer', 'โปรแกรมเมอร์คอมพิวเตอร์':'Computer programmer', 'นักออกแบบเว็บ':'company employee', 'นักออกแบบกราฟิก':'company employee', 'ผู้จัดการโรงแรมหรือการบริการ':'company employee'},
+
+        'ISFJ': {'ผู้ช่วยธุรการ':'company employee', 'ผู้จัดการสำนักงาน':'company employee', 'ผู้วางแผนกิจกรรม':'company employee', 'นักสังคมสงเคราะห์':'company employee', 'นักดูแลสุขภาพ':'Healthcare,sport trainer', 'ครู':'Teacher', 'ที่ปรึกษาด้านแนะแนว':'company employee', 'ที่ปรึกษาด้านอาชีพ':'company employee', 'นักดูแลผู้สูงอายุ':'Elder carer', 'ผู้ช่วยส่วนตัว':'company employee', 'ฝ่ายบริการลูกค้า':'company employee'},
+
+        'INTP': {'สถาปนิก':'architect', 'นักโฆษณา':'Advertiser', 'ศิลปิน':'Artist', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'นักพัฒนาองค์กร':'Organizational developer', 'นักจัดการการเปลี่ยนแปลง':'Change management', 'ที่ปรึกษา':'Consultant', 'วิศวกร':'Engineer', 'นักวิเคราะห์การเงินหรือที่ปรึกษาด้านการเงิน':'Financial analyst or advisor', 'นักเขียนสำหรับโทรทัศน์หรือภาพยนตร์':'Television or film writer', 'นักออกแบบ':'Designer', 'นักพัฒนาซอฟต์แวร์':'Software developer'},
+
         'ENTJ': {'ผู้จัดการ':'Management', 'โค้ช':'Coach', 'อาจารย์มหาวิทยาลัย':'College or university teacher', 'FBI':'FBI', 'ผู้พิพากษา':'Criminal justice', 'ผู้ประกอบการ':'Entrepreneur', 'ผู้บริหารธุรกิจ':'Business executive', 'วิศวกร':'Engineer', 'ฝ่ายขายและการตลาด':'Sales and marketing', 'ผู้จัดการโปรแกรม':'Program manager'},
+
         'ENTP': {'ทนายความ':'Lawyer', 'นักเขียน':'Writer', 'นักภาษาศาสตร์':'Linguistics', 'นักจิตวิทยา':'Psychologist', 'ทรัพยากรบุคคล':'Human resources', 'นักพูดสาธารณะ':'Public speaker', 'นักการเมือง':'Politician', 'นักจิตวิทยาโรงเรียน':'School psychologist', 'ผู้ประกาศข่าว':'Radio or TV personality', 'ศาสตราจารย์':'Professor ', 'วิศวกร':'Engineer'},
+
         'INFJ': {'นักเคลื่อนไหวความยุติธรรมด้านสิ่งแวดล้อม':'Environmental Activist', 'ครู':'Teacher', 'นักบำบัดด้วยศิลปะ':'Art therapist', 'ที่ปรึกษา':'Counselor', 'นักสังคมสงเคราะห์':'Social worker', 'บรรณารักษ์':'Librarian', 'นักเขียน':'Writer', 'เทรนเนอร์':'Trainer ', 'จิตแพทย์':'Psychiatrist', 'สัตวแพทย์':'Veterinarian', 'ผู้ให้บริการดูแลเด็ก':'Childcare provider', 'องค์กรไม่แสวงหากำไร':'Nonprofit'},
-        'INFP': {'นักเขียน':'Writer', 'จิตรกร':'Artist', 'ผู้เชี่ยวชาญด้านสุขภาพจิต':'Mental health professional', 'ที่ปรึกษา':'Counselor', 'ผู้ดูแลพิพิธภัณฑ์':'Museum curator', 'นักออกแบบกราฟิก':'Graphic designer', 'ช่างภาพ':'Photographer', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'นักการตลาด':'Marketing'},
+
+        'INFP': {'นักเขียน':'Writer,with pen', 'จิตรกร':'Artist,painter', 'ผู้เชี่ยวชาญด้านสุขภาพจิต':'Mental health professional,docter', 'ที่ปรึกษา':'Counselor', 'ผู้ดูแลพิพิธภัณฑ์':'Museum curator', 'นักออกแบบกราฟิก':'Graphic designer', 'ช่างภาพ':'Photographer', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'นักการตลาด':'Marketing'},
+
         'ENFJ': {'พนักงานทะเบียนนักศึกษา':'College recruiter', 'ที่ปรึกษาด้านอาชีพ':'Career counselor', 'ที่ปรึกษา':'Counselor', 'นักพูดเพื่อแรงบันดาลใจ':'Motivational speaker', 'ผู้พัฒนาการเป็นผู้นำ':'Leadership developer', 'ครู':'Teacher', 'ผู้ระดมทุน':'Fundraiser', 'ผู้อำนวยการฝ่ายศิษย์เก่า':'Alumni director', 'ผู้ฝึกอบรมและพัฒนา':'Training and developer', 'เทรนเนอร์':'Fitness instructor or health coach', 'นักสังคมสงเคราะห์':'Social worker'},
+
         'ENFP': {'นักแสดง':'Actor', 'ศิลปิน':'Artist', 'นักดนตรี':'Musician', 'ผู้ประกอบการ':'Entrepreneur ', 'นักเขียน':'Author', 'นักพูดเพื่อแรงบันดาลใจ':'Motivational speaker', 'ทนายความ':'Lawyer', 'นักการตลาด':'Marketing', 'ทรัพยากรบุคคล':'Human resources', 'ที่ปรึกษาด้านอาชีพ':'Counselor or career counselor', 'ครู':'Teacher', 'โค้ชหรือผู้ฝึกสอน':'Coach or trainer', 'องค์กรไม่แสวงหากำไร':'Nonprofit', 'สตาร์ทอัพ':'Startups'},
+
         'ISTJ': {'นายธนาคาร':'Banker', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'นักบัญชี':'Accountant', 'ตัวแทนประกันภัย':'Insurance agent ', 'ผู้จัดการ':'Management', 'ผู้จัดการโปรเจกต์':'Project manager', 'โปรแกรมเมอร์':'Computer programmer', 'นักพัฒนาระบบ':'Systems developer', 'ทหาร':'Military', 'ผู้บังคับใช้กฎหมาย':'Law enforcement'},
+        
         'ESTJ': {'ฝ่ายสรรหาบุคลากร':'Recruitment', 'ผู้บังคับใช้กฎหมาย':'Law Enforcement', 'การจัดการธุรกิจ':'Business Management', 'ประธานบริษัท':'CEO (Chief Executive Officer)', 'ทนาย':'Lawyer', 'นักจิตวิทยาในองค์กร':'Organizational Psychology', 'ผู้ประกอบการ':'Entrepreneur', 'นักบัญชี':'Accountant', 'นักการเงิน':'Financer', 'โค้ช':'Coach'},
+
         'ESFJ': {'ทรัพยากรบุคคล':'Human resources', 'ที่ปรึกษา':'Counselor', 'พยาบาล':'Nurse', 'แพทย์':'Medicine', 'นักสังคมสงเคราะห์':'Social worker', 'ผู้จัดการสำนักงาน':'Office manager', 'ที่ปรึกษาวิทยาลัย':'College advisor', 'ครู':'Teacher', 'ผู้พัฒนาหลักสูตร':'Curriculum developer', 'ช่างภาพ':'Photographer', 'ผู้จัดการด้านการดำเนินงาน':'Operations manager'},
+
         'ISTP': {'ฝ่ายสนับสนุนทางเทคนิค':'Technical support', 'นักออกแบบผลิตภัณฑ์':'Product designer', 'วิศวกร':'Engineer', 'นักดับเพลิง':'Firefighter', 'เจ้าหน้าที่ตำรวจ':'Police', 'เจ้าหน้าที่การแพทย์ฉุกเฉิน':'Emergency medical technician (EMT)', 'ช่างเครื่อง':'Mechanic', 'ช่างไฟฟ้า':'Electrician', 'ฝ่ายการผลิต':'Manufacturing', 'ครูวิทยาศาสตร์':'Science teacher', 'เจ้าหน้าที่ป่าไม้':'Forest services'},
+
         'ISFP': {'ผู้ช่วยส่วนตัว':'Personal assistant', 'นักเขียนขอทุน':'Grant writer', 'นักระดมทุน':'Fundraiser', 'องค์กรไม่แสวงหาผลกำไร':'Nonprofit', 'ฝ่ายทรัพยากรบุคคล':'Human resources', 'พยาบาล':'Nurse', 'ครู':'Teacher', 'ผู้บริหาร':'Administrator', 'นักสังคมสงเคราะห์':'Social worker'},
+
         'ESTP': {'นักวิจัยทางการแพทย์':'Medical researcher', 'ฝ่ายการผลิต':'Manufacturing', 'นายหน้าหลักทรัพย์':'Stockbroker', 'นักข่าว':'Journalist', 'เจ้าหน้าที่การแพทย์ฉุกเฉิน':'Emergency medical technician (EMT)', 'เจ้าหน้าที่ตำรวจ':'Police', 'เจ้าของอสังหาริมทรัพย์':'Real estate', 'รัฐบาล':'Government', 'นักกีฬา':'Athlete', 'นักแสดง':'Actor'},
+        
         'ESFP': {'ผู้อำนวยการกิจกรรม':'Activities director', 'ผู้จัดการการมีส่วนร่วมของพนักงาน':'Employee engagement', 'ครู':'Teacher', 'ฝ่ายบริการลูกค้า':'Customer service', 'ที่ปรึกษาด้านแฟชั่น':'Fashion consultant', 'เจ้าหน้าที่การแพทย์ฉุกเฉิน':'Emergency medical technician (EMT)', 'เจ้าหน้าที่ตำรวจ':'Police', 'ผู้ประสานงานกิจกรรม':'Events coordinator', 'เจ้าของอสังหาริมทรัพย์':'Real estate', 'เจ้าหน้าที่อุทยานและนันทการ':'Parks and recreation'},
     }
     careers_option = careers_option.get(MBTI, [])
