@@ -3,9 +3,6 @@
 {% load static %}
 
 {% block content %}
-  
-
-
 <body>
   <div class="background-home">
     <div style="background-image: url('{% static 'images/bg.jpg' %}');">
@@ -13,14 +10,12 @@
 
   <div class="flex flex-col items-center justify-center text-center mx-auto py-10 pt-24">
     <h1 class="text-4xl mt-20 mb-20 font-bold">แบบทดสอบบุคลิกภาพ</h1>
-      <a href="{% url 'mbti_test' %}" class="mb-20 rounded-full bg-white text-black px-10 py-3 shadow-lg text-xl hover:bg-[#D1A3FF]">
-        เริ่มทำแบบทดสอบกันเลย!
-      </a>
-    <br>
-    <br>
+    <a href="{% url 'mbti_test' %}" class="mb-20 rounded-full bg-white text-black px-10 py-3 shadow-lg text-xl hover:bg-[#D1A3FF]">
+      เริ่มทำแบบทดสอบกันเลย!
+    </a>
     <br>
 
-    <div class="full max-w-6xl bg-white rounded-lg border border-gray-300 p-11 pb-11">
+    <div class=" container px-4 max-w-6xl bg-white rounded-lg border border-gray-300 ">
       <div class="flex flex-col items-start justify-start text-left px-16 py-8">
         <h1 class="text-4xl ">MBTI แบบทดสอบบุคลิกภาพ คืออะไร?</h1>
         <br>
@@ -60,7 +55,7 @@
         <br>
         <p>ตัวอักษรทั้ง 4 ตัวของ MBTI คือลักษณะรูปแบบของความชอบหรือความถนัด 4 ด้าน (Preferences) ที่ตัวเรามีใจโน้มเอียงหรือความพึงพอใจที่จะเป็นหรือใช้  โดยมาจากทั้งหมด 8 ตัวอักษร(หรือ 8 แบบ) ได้แก่ E หรือ I / S หรือ N / T หรือ F / J หรือ P จึงขอใช้รูปภาพด้านล่างเป็นภาพรวม</p>
         <br>
-        <div class="image-center mx-auto my-8" style="text-align: center;">
+        <div class="flex justify-center mx-auto my-8" style="text-align: center;">
           <img src="{% static 'images/4dichotomies.jpg' %}" alt="4 Dichotomies of MBTI" style="max-width: 100%; height: auto;">
         </div>
         <br>
@@ -159,17 +154,11 @@
         <a href="{% url 'mbti_detail' mbti_type='INFP' %}" class="underline text-blue-600 hover:text-blue-800">INFP – The Idealists</a>
         <p>เป็นคนเงียบๆ, ชอบครุ่นคิด และยึดมั่นในอุดมการณ์ มีความสนใจในการให้บริการหรือทำประโยชน์แก่มนุษยชาติ มีระบบค่านิยมส่วนตัวซึ่งจะพยายามปฏิบัติตนให้สอดคล้องกับมันอยู่ตลอดเวลา มีความซื่อสัตย์อย่างมาก เป็นคนยืดหยุ่นได้ เป็นคนสบายๆเว้นแต่ว่าค่านิยมส่วนตัวจะถูกปฏิบัติในเชิงลบ โดยทั่วไปจะเป็นนักเขียนที่มีพรสวรรค์ มีความสามารถในการมองเห็นความเป็นไปได้ มีความสนใจในการเข้าใจและช่วยเหลือคนอื่นๆ</p>
         <br>
-
-
+        <br>
         <h2 class="text-2xl font-bold">แหล่งข้อมูลอ้างอิงที่นำมาใช้ประกอบเว็บไซต์</h2>
         <p>1. www.getrealme.com</p>
-
       </div>
     </div>
   </div>  
 </body>
 {% endblock %}
-
-
-
-
