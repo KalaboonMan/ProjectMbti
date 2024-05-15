@@ -1,50 +1,58 @@
-{% extends 'MBTI/components/base.html/' %}
-
+{% extends 'MBTI/components/base.html' %}
+{% load static %}
 {% block content %}
+<head>
+  <!-- Ensure your CSS file path is correct -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
+    }
+  </style>
+</head>
 <body>
-  <div class="flex flex-col items-center justify-center text-center mx-auto p-20"> 
-    <h1 class="text-4xl mt-1 mb-8 font-bold text-black">แบบทดสอบบุคลิกภาพ</h1>
-    <div class="w-full max-w-4xl bg-white rounded-lg shadow-md p-8 mb-6 ">
+  <div class="flex flex-col items-center justify-center text-center mx-auto p-20">
+    <h1 class="text-4xl mt-1 mb-8 font-bold" style="color: #1e293b;">แบบทดสอบบุคลิกภาพ</h1>
+    <div class="w-full max-w-4xl bg-white border border-gray-300 rounded-lg shadow-md p-8 mb-6">
       {% if error_message_25 %}
         <p class="text-red-600 font-bold">{{ error_message_25 }}</p>
       {% endif %}
       <form method="post">
         {% csrf_token %}
-        <!-- คำถามเกี่ยวกับเพศด้วยข้อความขนาดใหญ่ -->
+        <!-- Gender question section -->
         <div class="mb-5 text-2xl">
-          <label class="block text-[#654321] font-bold mb-2">เพศของคุณคืออะไร?</label>
+          <label class="block font-bold mb-2" style="color: #88498f;">เพศของคุณคืออะไร?</label>
           <div class="mt-2">
-            <input type="radio" name="gender" value="Male" id="genderMale" class="form-radio h-5 w-5 text-orange-600">
-            <label for="genderMale" class="text-xl text-[#654321] mr-4">ชาย</label>
-            <input type="radio" name="gender" value="Female" id="genderFemale" class="form-radio h-5 w-5 text-orange-600">
-            <label for="genderFemale" class="text-xl text-[#654321]">หญิง</label>
+            <input type="radio" name="gender" value="Male" id="genderMale" class="form-radio h-5 w-5" style="accent-color: #f48fb1;">
+            <label for="genderMale" class="text-xl mr-4" style="color: #1e293b;">ชาย</label>
+            <input type="radio" name="gender" value="Female" id="genderFemale" class="form-radio h-5 w-5" style="accent-color: #f48fb1;">
+            <label for="genderFemale" class="text-xl" style="color: #1e293b;">หญิง</label>
           </div>
         </div>
         
-        <!-- คำถาม MBTI ด้วยข้อความขนาดปกติ -->
+        <!-- MBTI questions section -->
         {% for question in questions %}
-          <div class="mb-6 p-5 bg-orange-100 rounded-lg shadow-md">
-            <strong class="text-2xl text-[#654321]">{{ forloop.counter }}. {{ question.text }}</strong>
+          <div class="mb-6 p-5 bg-[#fdf2f8] rounded-lg shadow-md">
+            <strong class="text-2xl" style="color: #88498f;">{{ forloop.counter }}. {{ question.text }}</strong>
             <div class="mt-3">
-              <!-- ตัวเลือกคำตอบด้วยข้อความขนาดเล็กกว่า -->
               {% if forloop.counter == 25 %}
-                <!-- เปลี่ยนจาก input ประเภท radio เป็น checkbox สำหรับคำถามที่ 25 -->
                 {% for answer in question.answer_set.all %}
-                  <input type="checkbox" name="answers_25" value="{{ answer.code }}" id="answer25_{{ answer.id }}" class="form-radio h-4 w-4 text-orange-600">
-                  <label for="answer25_{{ answer.id }}"class="text-xl text-[#654321] ml-2">{{ answer.text }}</label><br>
+                  <input type="checkbox" name="answers_25" value="{{ answer.code }}" id="answer25_{{ answer.id }}" class="form-radio h-5 w-5" style="accent-color: #f48fb1;">
+                  <label for="answer25_{{ answer.id }}" class="text-xl ml-2" style="color: #1e293b;">{{ answer.text }}</label><br>
                 {% endfor %}
               {% else %}
                 {% for answer in question.answer_set.all %}
-                  <input type="radio" name="question_{{ question.id }}" value="{{ answer.code }}" id="answer_{{ answer.id }}" class="form-radio h-4 w-4 text-orange-600">
-                  <label for="answer_{{ answer.id }}"class="text-xl text-[#654321] ml-2">{{ answer.text }}</label><br>
+                  <input type="radio" name="question_{{ question.id }}" value="{{ answer.code }}" id="answer_{{ answer.id }}" class="form-radio h-5 w-5" style="accent-color: #f48fb1;">
+                  <label for="answer_{{ answer.id }}" class="text-xl ml-2" style="color: #1e293b;">{{ answer.text }}</label><br>
                 {% endfor %}
               {% endif %}
             </div>
           </div>
         {% endfor %}
-    
+        
+        <!-- Submission button -->
         <div class="flex justify-center">
-          <input type="submit" value="ส่งคำตอบ" class="px-4 py-2 mt-6 font-bold text-white bg-orange-500 rounded hover:bg-orange-700 cursor-pointer">
+          <input type="submit" value="ส่งคำตอบ" class="px-4 py-2 mt-6 font-bold text-black" style="background-color: #ce93d8; cursor: pointer; border-radius: 5px; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#ba68c8'" onmouseout="this.style.backgroundColor='#ce93d8'">
         </div>
       </form>
     </div>
