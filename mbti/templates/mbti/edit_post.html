@@ -1,14 +1,25 @@
-{% extends 'MBTI/components/base.html/' %}
+{% extends 'MBTI/components/base.html' %}
+{% load static %}
 {% block content %}
-
+<head>
+  <!-- Ensure your CSS file path is correct -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
+    }
+  </style>
+</head>
 <body>
-    <div class="max-w-xl mx-auto py-12 px-4">
-    <h1 class="text-3xl font-semibold mb-6">แก้ไขบทความ</h1>
-    <form method="post" class="space-y-4">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="bg-green-600 hover:bg-green-700 font-bold text-black py-2 px-4 rounded">บันทึกการเปลี่ยนแปลง</button>
-    </form>
+    <div class="max-w-xl mx-auto min-h-screen  py-12 px-4">
+        <div class="w-full max-w-7xl bg-white border border-gray-300 rounded-lg shadow-md p-8 mb-6">
+            <h1 class="text-3xl font-semibold mb-6">แก้ไขบทความ</h1>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="bg-green-600 hover:bg-green-700 font-bold text-white py-2 px-4 rounded">บันทึกการเปลี่ยนแปลง</button>
+            </form>
+        </div>  
     </div>
 </body>    
 

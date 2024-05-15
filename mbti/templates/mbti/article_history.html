@@ -1,8 +1,17 @@
-{% extends 'MBTI/components/base.html/' %}
-
+{% extends 'MBTI/components/base.html' %}
+{% load static %}
 {% block content %}
+<head>
+  <!-- Ensure your CSS file path is correct -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
+    }
+  </style>
+</head>
 <body>
-    <div class="container mx-auto py-10">
+    <div class="container mx-auto py-10 min-h-screen">
         <h1 class="mx-auto p-20 text-center mt-8 px-4 py-2 font-bold">ประวัติการโพสของคุณ</h1>
     <div class="flex flex-wrap -mx-2 justify-center">
       {% for post in posts %}
@@ -18,7 +27,12 @@
               </div>
               <div class="flex justify-between mt-4">
                 {% if user.is_authenticated and user == post.user %}
-                <a href="{% url 'delete_post' post.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">ลบ</a>
+                <form action="{% url 'delete_post' post.id %}" method="post" style="display: inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex justify-end" style="border: none; background: none;">
+                      <i class="fas fa-trash" style="color: red;"></i>
+                  </button>
+              </form>
                 <a href="{% url 'edit_post' post.id %}"class="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700">แก้ไข</a>
                 {% endif %}
               </div>

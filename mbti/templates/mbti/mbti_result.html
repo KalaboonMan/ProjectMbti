@@ -1,154 +1,162 @@
-{% extends 'MBTI/components/base.html/' %}
-
+{% extends 'MBTI/components/base.html' %}
+{% load static %}
 {% block content %}
-
+<head>
+  <!-- Ensure your CSS file path is correct -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #4f46e5, #d8b4fe 100%);
+    }
+  </style>
+</head>
 <body>
-  <div class="flex flex-col items-center justify-center text-center mx-auto p-11"> 
-    <div class="w-full max-w-8xl bg-white border border-gray-300 rounded-lg shadow-md p-8 mb-6">
-        <div class="flex justify-between">
-            <div class="w-1/2 p-4">
-                <h1>ผลลัพธ์ บุคลิกภาพของคุณ {{ user.username }}</h1>
-                <br>
-                {% if message %}
-                <p>{{ message }}</p>  <!-- ข้อความแสดงเมื่อไม่มีข้อมูลผลลัพธ์ -->
-                {% else %}
-                    {% if Point %}
-                        <p>คะแนนของคุณคือ: <br> {{ Point }}</p>
+    <div class="flex flex-col items-center justify-center text-center min-h-screen p-11"> 
+        <div class="w-full max-w-7xl bg-white border border-gray-300 rounded-lg shadow-md p-8 mb-6">
+            <div class="flex justify-between">
+                <div class="w-1/2 p-4">
+                    <h1 class="text-[#6366f1]">ผลลัพธ์ บุคลิกภาพของคุณ {{ user_display_name }}</h1>
+                    <br>
+                    {% if message %}
+                    <p>{{ message }}</p>  <!-- ข้อความแสดงเมื่อไม่มีข้อมูลผลลัพธ์ -->
+                    {% else %}
+                        {% if Point %}
+                            <p>คะแนนของคุณคือ: <br> {{ Point }}</p>
+                        {% endif %}
+                        <br>
+                        {% if MBTI %}
+                            <p>สรุปผลลัพธ์ MBTI ของคุณคือ: <br> {{ MBTI }}</p>
+                            <br>
+                            <p>คำอธิบาย: <br> {{ description }}</p>
+                            <br>
+                            <p>อาชีพยอดนิยมสำหรับคนไทป์ {{ MBTI }} คือ: <br> {{ careers }}</p>
+                        {% endif %}
                     {% endif %}
                     <br>
-                    {% if MBTI %}
-                        <p>สรุปผลลัพธ์ MBTI ของคุณคือ: <br> {{ MBTI }}</p>
-                        <br>
-                        <p>คำอธิบาย: <br> {{ description }}</p>
-                        <br>
-                        <p>อาชีพยอดนิยมสำหรับคนไทป์ {{ MBTI }} คือ: <br> {{ careers }}</p>
-                    {% endif %}
-                {% endif %}
-                <br>
-                <h2 class="font-bold">แหล่งข้อมูลอ้างอิงที่นำมาใช้ประกอบเว็บไซต์</h2>
-                <p>1. www.getrealme.com</p>
-                <p>2. www.mbtionline.com/</p>
-            </div>
-            
-            <div class="w-1/2">
-                <form method="POST">
-                    {% csrf_token %}
-                    <!-- ตัวอย่าง HTML สำหรับ dropdown menu -->
-                    <label  for="careerDropdown">เลือกอาชีพ:</label>
-                    <select id="careerDropdown" name="career" onchange="saveSelection('career', this.value)">
-                        {% for thai_career, eng_career in careers_option.items %}
-                        <option value="{{ eng_career }}">{{ thai_career }}</option>
-                    {% endfor %}
-                    </select>
-                    <br>
-                    <label  for="hairColorDropdown">เลือกสีผม:</label>
-                    <select id="hairColorDropdown" name="hair" onchange="saveSelection('hair', this.value)">
-                        <option value="red hair" style="color: rgb(255, 0, 0);" >███</option>
-                        <option value="dark hair" style="color: rgb(0, 0, 0);" >███</option>
-                        <option value="white hair" style="color: rgb(255, 255, 255);" >███</option>
-                        <option value="yellow hair" style="color: rgb(255, 234, 0);" >███</option>
-                        <option value="orange hair" style="color: rgb(251, 110, 3);" >███</option>
-                        <option value="gray hair" style="color: rgb(101, 101, 101);" >███</option>
-                        <option value="brown hair" style="color: rgb(139, 69, 4);" >███</option>
-                        <option value="pink hair" style="color: rgb(242, 19, 213);" >███</option>
-                        <option value="green hair" style="color: rgb(44, 142, 8);" >███</option>
-                        <option value="blue hair" style="color: rgb(0, 98, 255);" >███</option>
-                    </select>
-                    <br>
-                    <label  for="skinColorDropdown">เลือกสีผิว:</label>
-                    <select id="skinColorDropdown" name="skin" onchange="saveSelection('skin', this.value)">
-                        <option value="white skin " style="color: rgb(255, 231, 205);" >███</option>
-                        <option value="warm skin " style="color: rgb(244, 186, 119);" >███</option>
-                        <option value="dark skin " style="color: rgb(80, 49, 15);" >███</option>
-                        
-                    </select>
-                    <script>
-                        function saveSelection(key, value) {
-                            localStorage.setItem(key, value);
-                        }
-                        window.onload = function() {
-                            var selects = [
-                                {key: 'career', id: 'careerDropdown'},
-                                {key: 'hair', id: 'hairColorDropdown'},
-                                {key: 'skin', id: 'skinColorDropdown'},
-                                {key: 'model', id: 'modelDropdown'}
-                            ];
-                            selects.forEach(function(item) {
-                                var value = localStorage.getItem(item.key);
-                                if (value) {
-                                    document.getElementById(item.id).value = value;
-                                }
-                            });
-                        };
-                    </script>
-                    <br>    
-                    <br>
-                    <label for="modelDropdown">Choose a model:</label>
-                    <select name="model" id="modelDropdown" onchange="saveSelection('model', this.value)">
-                        <option value="diffpipe">Ojimi/anime-kawai-diffusion</option>
-                        <option value="dreamlikeanime">Dreamlike-Anime</option>
-                        <option value="dreamlikephotoreal">dreamlike-Art</option>
-                    </select>
-                    <!-- <input type="text" name="prompt" id="prompt" class=" border-2 border-orange-500 bg-gray-100 rounded-lg p-1" placeholder="1boy,teacher,career,blue hair,full body"> -->
-                    <button  onclick="submitForm()" class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
-                </form>
-                
-                <br>
-                <div id="message"></div>
-                <br>
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <img src="../media/ai_image/{{user.username}}.jpg" alt="{{user.username}}" style="max-width: 35%; height: 40%;">
-                </div>
-                <form id="imageForm" method="POST">
-                    <!-- ฟอร์มข้อมูลต่างๆ -->
-                    <button type="submit">สร้าง</button>
-                </form>
-                <img id="resultImage" src="placeholder.jpg" alt="Generated Image">
-                
-                <script>
-                document.getElementById('imageForm').addEventListener('submit', function(event) {
-                    event.preventDefault(); // ป้องกันการรีเฟรชหน้า
-                
-                    var formData = new FormData(this);
-                
-                    fetch('/path/to/your/image/generation/api', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.imageURL) {
-                            document.getElementById('resultImage').src = data.imageURL;
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-                });
-                </script>
-                
-                <br>
-                <div class="result-section">
-                    <button class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2"onclick="copyURLToClipboard('{{ full_url }}')">SHARE</button>
-
+                    <h2 class="font-bold">แหล่งข้อมูลอ้างอิงที่นำมาใช้ประกอบเว็บไซต์</h2>
+                    <p>1. www.getrealme.com</p>
+                    <p>2. www.mbtionline.com/</p>
                 </div>
                 
-                <script>
-                    function copyURLToClipboard(url) {
-                        navigator.clipboard.writeText(url).then(() => {
-                            alert('URL copied to clipboard!');
-                        }).catch(err => {
-                            console.error('Failed to copy:', err);
-                        });
-                    }
-                    function submitForm() {
-                        
-                        document.getElementById('message').innerText = 'กำลังสร้าง...';  // ข้อความที่จะแสดง
+                <div class="w-1/2">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- ตัวอย่าง HTML สำหรับ dropdown menu -->
+                        <label  for="careerDropdown">เลือกอาชีพ:</label>
+                        <select id="careerDropdown" name="career" onchange="saveSelection('career', this.value)">
+                            {% for thai_career, eng_career in careers_option.items %}
+                            <option value="{{ eng_career }}">{{ thai_career }}</option>
+                        {% endfor %}
+                        </select>
+                        <br>
+                        <label  for="hairColorDropdown">เลือกสีผม:</label>
+                        <select id="hairColorDropdown" name="hair" onchange="saveSelection('hair', this.value)">
+                            <option value="red hair" style="color: rgb(255, 0, 0);" >███</option>
+                            <option value="dark hair" style="color: rgb(0, 0, 0);" >███</option>
+                            <option value="white hair" style="color: rgb(255, 255, 255);" >███</option>
+                            <option value="yellow hair" style="color: rgb(255, 234, 0);" >███</option>
+                            <option value="orange hair" style="color: rgb(251, 110, 3);" >███</option>
+                            <option value="gray hair" style="color: rgb(101, 101, 101);" >███</option>
+                            <option value="brown hair" style="color: rgb(139, 69, 4);" >███</option>
+                            <option value="pink hair" style="color: rgb(242, 19, 213);" >███</option>
+                            <option value="green hair" style="color: rgb(44, 142, 8);" >███</option>
+                            <option value="blue hair" style="color: rgb(0, 98, 255);" >███</option>
+                        </select>
+                        <br>
+                        <label  for="skinColorDropdown">เลือกสีผิว:</label>
+                        <select id="skinColorDropdown" name="skin" onchange="saveSelection('skin', this.value)">
+                            <option value="white skin " style="color: rgb(255, 231, 205);" >███</option>
+                            <option value="warm skin " style="color: rgb(244, 186, 119);" >███</option>
+                            <option value="dark skin " style="color: rgb(80, 49, 15);" >███</option>
+                            
+                        </select>
+                        <script>
+                            function saveSelection(key, value) {
+                                localStorage.setItem(key, value);
+                            }
+                            window.onload = function() {
+                                var selects = [
+                                    {key: 'career', id: 'careerDropdown'},
+                                    {key: 'hair', id: 'hairColorDropdown'},
+                                    {key: 'skin', id: 'skinColorDropdown'},
+                                    {key: 'model', id: 'modelDropdown'}
+                                ];
+                                selects.forEach(function(item) {
+                                    var value = localStorage.getItem(item.key);
+                                    if (value) {
+                                        document.getElementById(item.id).value = value;
+                                    }
+                                });
+                            };
+                        </script>
+                        <br>    
+                        <br>
+                        <label for="modelDropdown">Choose a model:</label>
+                        <select name="model" id="modelDropdown" onchange="saveSelection('model', this.value)">
+                            <option value="diffpipe">Ojimi/anime-kawai-diffusion</option>
+                            <option value="dreamlikeanime">Dreamlike-Anime</option>
+                            <option value="dreamlikephotoreal">dreamlike-Art</option>
+                        </select>
+                        <!-- <input type="text" name="prompt" id="prompt" class=" border-2 border-orange-500 bg-gray-100 rounded-lg p-1" placeholder="1boy,teacher,career,blue hair,full body"> -->
+                        <button  onclick="submitForm()" class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2">สร้าง</button>
+                    </form>
                     
+                    <br>
+                    <div id="message"></div>
+                    <br>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img src="../media/ai_image/{{user.username}}.jpg" alt="{{user.username}}" style="max-width: 35%; height: 40%;">
+                    </div>
+                    <form id="imageForm" method="POST">
+                        <!-- ฟอร์มข้อมูลต่างๆ -->
+                        <button type="submit">สร้าง</button>
+                    </form>
+                    <img id="resultImage" src="placeholder.jpg" alt="Generated Image">
+                    
+                    <script>
+                    document.getElementById('imageForm').addEventListener('submit', function(event) {
+                        event.preventDefault(); // ป้องกันการรีเฟรชหน้า
+                    
+                        var formData = new FormData(this);
+                    
+                        fetch('/path/to/your/image/generation/api', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.imageURL) {
+                                document.getElementById('resultImage').src = data.imageURL;
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    });
+                    </script>
+                    
+                    <br>
+                    <div class="result-section">
+                        <button class="rounded-lg shadow-xl bg-orange-200 border-orange-600 p-1 border-2"onclick="copyURLToClipboard('{{ full_url }}')">SHARE</button>
+
+                    </div>
+                    
+                    <script>
+                        function copyURLToClipboard(url) {
+                            navigator.clipboard.writeText(url).then(() => {
+                                alert('URL copied to clipboard!');
+                            }).catch(err => {
+                                console.error('Failed to copy:', err);
+                            });
                         }
-                </script>
+                        function submitForm() {
+                            
+                            document.getElementById('message').innerText = 'กำลังสร้าง...';  // ข้อความที่จะแสดง
+                        
+                            }
+                    </script>
+                </div>
             </div>
         </div>
     </div>
-  </div>
 </body>
 
 {% endblock %}

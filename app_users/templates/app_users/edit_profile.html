@@ -1,9 +1,18 @@
 {% extends 'MBTI/components/base.html' %}
-
+{% load static %}
 {% block content %}
+<head>
+  <!-- Ensure your CSS file path is correct -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
+    }
+  </style>
+</head>
 <body>
-  <div class=" flex flex-col justify-center items-center py-20">
-    <div class="bg-white w-full max-w-xl mx-auto p-8 border border-amber-500 rounded drop-shadow-2xl">
+  <div class="flex flex-col justify-center items-center min-h-screen">
+    <div class="bg-white w-full max-w-xl mx-auto p-8 border border-gray-300 rounded drop-shadow-2xl">
       <h3 class="text-4xl text-center mb-6 font-bold text-black">ข้อมูลผู้ใช้ของ {{ user.username }}</h3>
       {% if flash_message %}
         <p class="text-center text-[#16a34a] mb-4">{{ flash_message }}</p>
@@ -21,7 +30,7 @@
         
         <div class="flex justify-center mt-4 "> 
           <button type="submit"  class="me-8 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>
-          <a href="{% url 'profile' %}" class="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700">ดูโปรไฟล์</a>
+          <a href="{% url 'profile' %}" class="px-4 py-2 bg-[#88498f] text-white rounded hover:bg-[#6a1b9a]">ดูโปรไฟล์</a>
         </div>
       </form>
     </div>
