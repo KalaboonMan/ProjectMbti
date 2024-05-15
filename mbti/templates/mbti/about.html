@@ -2,12 +2,13 @@
 {% load static %}
 {% block content %}
 <head>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-      body {
-        background-color: #f5d0fe; /* กำหนดสีพื้นหลังเป็นสีที่ต้องการ */
-      }
-    </style>
+  <!-- Ensure your CSS file path is correct -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
+    }
+  </style>
 </head>
 <body>
     <div class="flex flex-col items-center justify-center text-center mx-auto py-10 ">
@@ -22,10 +23,10 @@
                         <div id="model1-content" class="hidden">
                             <h1 class="text-xl font-bold">ขั้นตอนการจัดเก็บคะแนน</h1>
                             <p>1.ระบุข้อคำถามและตัวเลือกที่ผู้ใช้เลือก</p>
-                            <p>ในแต่ละข้อคำถามจะมีตัวเลือก A, B, และคำถาม C ที่มีทั้งหมด 2 ข้อ(ข้อที่ 7 กับข้อที่ 25) ซึ่งแต่ละตัวเลือกจะสัมพันธ์กับคุณลักษณะบุคลิกภาพหนึ่งใน MBTI คือ E(Extraversion), I(Introversion), S(Sensing), N(Intuition), T(Thinking), F(Feeling), J(Judging), หรือ P(Perceiving)</p>
+                            <p>คำถามจะมีทั้งหมด 50 คำถาม ในแต่ละข้อคำถามจะมีตัวเลือก A, B, และคำถาม C ที่มีทั้งหมด 2 ข้อ(ข้อที่ 7 กับข้อที่ 25) ซึ่งแต่ละตัวเลือกจะสัมพันธ์กับคุณลักษณะบุคลิกภาพหนึ่งใน MBTI คือ E(Extraversion), I(Introversion), S(Sensing), N(Intuition), T(Thinking), F(Feeling), J(Judging), หรือ P(Perceiving)</p>
                             <br>
                             <p>2.การจัดเก็บคะแนนตามตัวเลือก</p>
-                            <p>แต่ละตัวเลือกในข้อคำถามมีคะแนนที่กำหนดไว้สำหรับบุคลิกภาพที่สอดคล้องกัน (เช่น, E = 3A มีค่า 2 คะแนน, I =  3 มีค่า 2 คะแนน) และข้อ 25 มีความพิเศษนอกเหนือจากข้ออื่นเพราะ จะสามารถเลือกคำตอบได้ทั้งหมด 2 ข้อ จากตัวเลือกที่มี 3 ตัวเลือก ผู้ใช้ทำการเลือกตัวเลือกที่ตรงกับวิธีคิดหรือพฤติกรรมของตนเอง และคะแนนจากตัวเลือกนั้นจะถูกบันทึกไว้ในคอลัมน์ที่สัมพันธ์กับบุคลิกภาพนั้นๆ</p>
+                            <p>แต่ละตัวเลือกในข้อคำถามมีคะแนนที่กำหนดไว้สำหรับบุคลิกภาพที่สอดคล้องกัน (เช่น, E = 3A มีค่า 2 คะแนน, I =  3B มีค่า 2 คะแนน) และข้อ 25 มีความพิเศษนอกเหนือจากข้ออื่นเพราะ จะสามารถเลือกคำตอบได้ทั้งหมด 2 ข้อ จากตัวเลือกที่มี 3 ตัวเลือก ผู้ใช้ทำการเลือกตัวเลือกที่ตรงกับวิธีคิดหรือพฤติกรรมของตนเอง และคะแนนจากตัวเลือกนั้นจะถูกบันทึกไว้ในคอลัมน์ที่สัมพันธ์กับบุคลิกภาพนั้นๆ</p>
                             <br>
                             <div class="flex justify-center mx-auto my-8" style="text-align: center;">
                                 <img src="{% static 'images/scoreMBTI.png' %}" alt="scoreMBTI" style="max-width: 100%; height: auto;">

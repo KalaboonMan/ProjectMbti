@@ -1,4 +1,3 @@
-
 def user_display_name(request):
     if not request.user.is_authenticated:
         return {'user_display_name': None}

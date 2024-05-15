@@ -1,6 +1,15 @@
-{% extends 'MBTI/components/base.html/' %}
-
+{% extends 'MBTI/components/base.html' %}
+{% load static %}
 {% block content %}
+<head>
+  <!-- Ensure your CSS file path is correct -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
+    }
+  </style>
+</head>
 <body>
   <div class="flex flex-col items-center justify-center text-center mx-auto p-20"> 
     <div class="w-full max-w-8xl bg-white rounded-lg shadow-md p-8 mb-6">
