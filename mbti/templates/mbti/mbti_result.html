@@ -20,16 +20,22 @@
                 <div class="flex justify-between">
                     <div class="w-1/2 p-4">
                         <h1 class="text-[#6366f1]">ผลลัพธ์บุคลิกภาพของคุณ {{ user_display_name }}</h1>
+                        <br>
                         <p>คะแนนของคุณคือ: <br> {{ Point }}</p>
+                        <br>
                         <p>สรุปผลลัพธ์ MBTI ของคุณคือ: <br> {{ MBTI }}</p>
+                        <br>
                         <p>คำอธิบาย: <br> {{ description }}</p>
+                        <br>
                         <p>อาชีพยอดนิยมสำหรับคนไทป์ {{ MBTI }} คือ: <br> {{ careers }}</p>
+                        <br>
                         <h2 class="font-bold">แหล่งข้อมูลอ้างอิงที่นำมาใช้ประกอบเว็บไซต์</h2>
                         <p>1. www.getrealme.com</p>
                         <p>2. www.mbtionline.com/</p>
                     </div>    
-
+                    <br>
                     <div class="w-1/2">
+                        <br>
                         <form method="POST">
                             {% csrf_token %}
                             <label  for="careerDropdown">เลือกอาชีพ:</label>
