@@ -24,7 +24,15 @@
         <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
           <div class="bg-white rounded-lg shadow overflow-hidden">
             <div class="p-4">
-              <div class="font-bold text-xl">{{ post.user.username }}</div> 
+              {% with user_profile=post.user.profile %}
+                <div class="font-bold text-xl">
+                    {% if user_profile.first_name and user_profile.last_name %}
+                        {{ user_profile.first_name }} {{ user_profile.last_name }}
+                    {% else %}
+                        {{ post.user.username }}
+                    {% endif %}
+                </div>
+              {% endwith %}
               <div class="pb-4">
                 <span class="inline-block bg-amber-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{{ post.created_at|date:"M d, Y H:i" }}</span>
               </div>
