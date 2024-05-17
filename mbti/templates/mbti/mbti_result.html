@@ -4,6 +4,16 @@
 <head>
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <style>
+    .custom-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            position: relative;
+        }
+
+        .custom-select option {
+            color: inherit;
+        }
     body {
       background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
     }
@@ -46,8 +56,8 @@
                             </select>
                             <br>
                             <label  for="hairColorDropdown">เลือกสีผม:</label>
-                            <select id="hairColorDropdown" name="hair" onchange="saveSelection('hair', this.value)">
-                                <option value="red hair" style="color: rgb(255, 0, 0);" >███</option>
+                            <select class="custom-select" id="hairColorDropdown" name="hair" onchange="saveSelection('skin', this.value, this)">
+                                <option value="red hair"  style="color: rgb(255, 0, 0);" >███</option>
                                 <option value="dark hair" style="color: rgb(0, 0, 0);" >███</option>
                                 <option value="white hair" style="color: rgb(255, 255, 255);" >███</option>
                                 <option value="yellow hair" style="color: rgb(255, 234, 0);" >███</option>
@@ -60,15 +70,17 @@
                             </select>
                             <br>
                             <label  for="skinColorDropdown">เลือกสีผิว:</label>
-                            <select id="skinColorDropdown" name="skin" onchange="saveSelection('skin', this.value)">
+                            <select id="skinColorDropdown" name="skin" onchange="saveSelection('skin', this.value, this)">
                                 <option value="white skin " style="color: rgb(255, 231, 205);" >███</option>
                                 <option value="warm skin " style="color: rgb(244, 186, 119);" >███</option>
                                 <option value="dark skin " style="color: rgb(80, 49, 15);" >███</option>
                                 
                             </select>
                             <script>
-                                function saveSelection(key, value) {
+                                function saveSelection(key, value,selectElement) {
                                     localStorage.setItem(key, value);
+                                    const selectedOption = selectElement.options[selectElement.selectedIndex];
+                                    selectElement.style.color = selectedOption.style.color;
                                 }
                                 window.onload = function() {
                                     var selects = [
@@ -84,6 +96,12 @@
                                         }
                                     });
                                 };
+                               
+                                function changeSelectColor(selectElement) {
+                                    const selectedOption = selectElement.options[selectElement.selectedIndex];
+                                    selectElement.style.color = selectedOption.style.color;
+                                }
+    
                             </script>
                             <br>    
                             <br>
