@@ -2,16 +2,12 @@
 
 {% block content %}
 <head>
-
-  <style>
-        .custom-select option {
-            color: inherit;
+    <style>
+        body {
+            background: linear-gradient(30deg, #FF69B4, #9932CC);
         }
-    body {
-        background: linear-gradient(30deg, #9370DB, #87CEFA);
-    }
-  </style>
-</head>
+    </style>
+  </head>
 <body>
     <div class="container mx-auto p-11 text-center"> 
         <div class="bg-white border border-gray-300 rounded-lg shadow-md p-8 mb-6">
@@ -31,8 +27,8 @@
                         <p>อาชีพยอดนิยมสำหรับคนไทป์ {{ MBTI }} คือ: <br> {{ careers }}</p>
                         <br>
                         <h2 class="font-bold">แหล่งข้อมูลอ้างอิงที่นำมาใช้ประกอบเว็บไซต์</h2>
-                        <p>1. www.getrealme.com</p>
-                        <p>2. www.mbtionline.com/</p>
+                        <p><a href="https://getrealme.com" target="_blank" class="text-blue-600 hover:text-blue-800"> 1. www.getrealme.com</a></p>
+                        <p><a href="https://mbtionline.com/" target="_blank" class="text-blue-600 hover:text-blue-800">2. www.mbtionline.com</a></p>
                     </div>    
                     <br>
                     <div class="w-1/2 p-4">
@@ -48,7 +44,7 @@
                             </select>
                             <br>
                             <label  for="hairColorDropdown">เลือกสีผม:</label>
-                            <select id="hairColorDropdown" name="hair" onchange="saveSelection('skin', this.value, this)">
+                            <select id="hairColorDropdown" name="hair" onchange="saveSelection('hair', this.value, this)">
                                 <option value="red hair"  style="color: rgb(255, 0, 0);" >███</option>
                                 <option value="dark hair" style="color: rgb(0, 0, 0);" >███</option>
                                 <option value="white hair" style="color: rgb(255, 255, 255);" >███</option>

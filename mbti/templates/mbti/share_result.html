@@ -1,12 +1,11 @@
 {% extends 'MBTI/components/base.html' %}
-{% load static %}
+
 {% block content %}
 <head>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <style>
-    body {
-      background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
-    }
+      body {
+          background: linear-gradient(30deg, #FF69B4, #9932CC);
+      }
   </style>
 </head>
 <body>
@@ -23,11 +22,12 @@
               <p>อาชีพยอดนิยมสำหรับคนไทป์ {{ MBTI }} คือ: <br> {{ careers }}</p>
               <br>
             </div>
-            <div class="w-1/2">
-                <br>
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <img src="../media/ai_image/{{user}}.jpg" alt="{{user}}" style="max-width: 35%; height: auto;">
-                </div>
+            <div class="w-1/2 p-4">
+              <h1 class="text-[#6366f1]">รูป AI บุคลิกภายนอกของ {{ user_display_name }} รวมกับอาชีพที่อยากจะเป็น </h1>
+              <br>
+              <div style="display: flex; justify-content: center; align-items: center;">
+                <img src="../media/ai_image/{{user}}.jpg" alt="{{user}}" style="max-width: 35%; height: auto;">
+              </div>
             </div>
         </div>
     </div>

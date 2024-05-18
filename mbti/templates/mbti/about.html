@@ -2,13 +2,12 @@
 {% load static %}
 {% block content %}
 <head>
-
-  <style>
-    body {
-      background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
-    }
-  </style>
-</head>
+    <style>
+        body {
+            background: linear-gradient(30deg, #FF69B4, #9932CC);
+        }
+    </style>
+  </head>
 <body>
     <div class="flex flex-col items-center justify-center text-center mx-auto py-10 ">
         <div class="container px-4 max-w-6xl bg-white rounded-lg border border-gray-300  ">
@@ -51,14 +50,19 @@
                             <p>หลังจากได้ผลลัพธ์บุคลิกภาพแล้ว สามารถอ่านเพิ่มเติมเกี่ยวกับบุคลิกของตัวเองหรือผู้อื่นได้ที่ <a href="{% url 'home' %}" class="underline text-blue-600 hover:text-blue-800">หน้าแรก</a> ได้เลย</p>
                             <br>
                             <h2 class="font-bold">แหล่งข้อมูลอ้างอิงที่นำมาใช้ประกอบแบบทดสอบ</h2>
-                            <p>1. www.wedgworthleadership.com/wp-content/uploads/2016/08/Myers-Briggs-Personality-Test.pdf</p>
+                            <p><a href="https://wedgworthleadership.com/wp-content/uploads/2016/08/Myers-Briggs-Personality-Test.pdf" target="_blank" class="text-blue-600 hover:text-blue-800"> 1. www.wedgworthleadership.com/wp-content/uploads/2016/08/Myers-Briggs-Personality-Test.pdf</a></p>
 
                         </div>
                         <div id="model2-content" class="hidden">
+                            <h1 class="text-xl font-bold">"Text-to-Image" คืออะไร?</h1>
+                            <p></p>
+                
                             <h1 class="text-xl font-bold">1.โมเดล "anime-kawai-diffusion"</h1>
                             <p>โมเดล "anime-kawai-diffusion"บน Hugging Face สร้างโดย Ojimi เป็นโมเดลแปลงข้อความเป็นภาพที่ออกแบบมาเพื่อสร้างศิลปะแนวอนิเมะ โดยใช้ไลบรารี Diffusers และผ่านการฝึกฝนด้วยระบบแท็กของ Danbooru และ Nai เป้าหมายคือการสร้างภาพคุณภาพสูง แต่ยังอาจมีปัญหาเช่นการวาดที่ยาก การสูญเสียรายละเอียด และเนื้อหาที่ไม่เหมาะสม โมเดลนี้มีลิขสิทธิ์ CreativeML Open RAIL-M อนุญาตให้แก้ไขและแจกจ่ายต่อได้ภายใต้เงื่อนไขบางประการ </p>
                             <br>
-                            <p>ดูรายละเอียดเพิ่มเติมได้ที่ anime-kawai-diffusion บน Hugging Face หรือ www.huggingface.co/Ojimi/anime-kawai-diffusion</p>
+                            <p>และค่าเฉลี่ยการรันโมเดล anime-kawai-diffusion เป็นจำนวน 10 ครั้ง เฉลี่ยแล้วได้ 168.086 วินาที</p>
+                            <br>
+                            <p>ดูรายละเอียดเพิ่มเติมได้ที่ <a href="https://huggingface.co/Ojimi/anime-kawai-diffusion" target="_blank" class="text-blue-600 hover:text-blue-800">anime-kawai-diffusion</a> บน Hugging Face</p>
                             <br>
                             <h1 class="text-xl font-bold">ระบบแท็กของ Danbooru และ Nai คืออะไร</h1>
                             <p>ระบบแท็กของ Danbooru และ Nai เป็นระบบการแท็ก (tagging) ภาพที่ใช้ในเว็บไซต์ Danbooru ซึ่งเป็นฐานข้อมูลรูปภาพแนวอนิเมะ โดยระบบนี้ช่วยในการจัดหมวดหมู่และค้นหาภาพอย่างมีประสิทธิภาพผ่านการใช้แท็กที่อธิบายลักษณะต่าง ๆ ของภาพ เช่น ตัวละคร, สี, อารมณ์ เป็นต้น</p>
@@ -69,25 +73,36 @@
                             <br>
                             <p>Diffusers คือไลบรารีในภาษา Python ที่ออกแบบมาเพื่อใช้กับโมเดลที่ใช้กระบวนการ diffusion สำหรับสร้างภาพหรือข้อมูลอื่น ๆ แบบต่อเนื่อง โดยเฉพาะในการสร้างภาพจากข้อความ (text-to-image generation) กระบวนการ diffusion จะค่อย ๆ เพิ่มรายละเอียดและความสมจริงของภาพหรือข้อมูลจากเสียงรบกวน (noise) จนได้ผลลัพธ์ที่ต้องการ Diffusers ให้เครื่องมือและฟังก์ชันต่าง ๆ ที่ช่วยให้การใช้งานโมเดล diffusion ง่ายขึ้นและมีประสิทธิภาพสูงขึ้น</p>
                             <br>
-                            <p>ข้อมูลเพิ่มเติมสามารถดูได้ที่ Hugging Face Diffusers หรือ www.huggingface.co/docs/diffusers/index</p>
+                            <p>ข้อมูลเพิ่มเติมสามารถดูได้ที่ <a href="https://huggingface.co/docs/diffusers/index" target="_blank" class="text-blue-600 hover:text-blue-800"> Hugging Face Diffusers</a></p>
                             <br>
                             <h1 class="text-xl font-bold">2.โมเดล "Dreamlike Anime 1.0" </h1>
                             <p>Dreamlike Anime 1.0 เป็นโมเดลสร้างภาพแนวอนิเมะคุณภาพสูง โดย dreamlike.art โมเดลนี้ใช้กระบวนการ Stable Diffusion เพื่อสร้างภาพจากข้อความและฝึกบนภาพขนาด 768x768px ใช้แท็กในคำสั่งเพื่อปรับแต่งผลลัพธ์ให้ออกมาเป็นอนิเมะหรือแนวภาพถ่ายอย่างสมจริง แนะนำให้ใช้ negative prompts เพื่อลดคุณสมบัติที่ไม่ต้องการ โมเดลนี้สามารถใช้งานได้ฟรีแต่มีข้อจำกัดในการใช้งานในแอปพลิเคชันหรือเว็บไซต์</p>
                             <br>
-                            <p>ดูรายละเอียดเพิ่มเติมได้ที่ Dreamlike Anime 1.0 หรือ www.huggingface.co/dreamlike-art/dreamlike-anime-1.0</p>
+                            <p>และค่าเฉลี่ยการรันโมเดล Dreamlike Anime 1.0 เป็นจำนวน 10 ครั้ง เฉลี่ยแล้วได้ 158.944 วินาที</p>
+                            <br>
+                            <p>ดูรายละเอียดเพิ่มเติมได้ที่ <a href="https://huggingface.co/dreamlike-art/dreamlike-anime-1.0" target="_blank" class="text-blue-600 hover:text-blue-800"> Dreamlike Anime 1.0</a></p>
                             <br>
                             <h1 class="text-xl font-bold">3.โมเดล "Dreamlike Photoreal 2.0" </h1>
                             <p>Dreamlike Photoreal 2.0 เป็นโมเดลสร้างภาพที่มีความสมจริงโดยใช้เทคนิค Stable Diffusion 1.5 โมเดลนี้ถูกออกแบบมาเพื่อสร้างภาพที่ดูเหมือนภาพถ่ายจากข้อความ โมเดลนี้ถูกฝึกบนภาพขนาด 768x768px แต่สามารถใช้งานได้ดีกับความละเอียดสูง เช่น 768x1024px หรือ 1024x768px มีข้อแนะนำให้ใช้ negative prompts เพื่อลดคุณสมบัติที่ไม่ต้องการ โมเดลนี้มีลิขสิทธิ์ภายใต้ CreativeML OpenRAIL-M</p>
                             <br>
-                            <p>สำหรับรายละเอียดเพิ่มเติมและตัวอย่างภาพ สามารถดูได้ที่ Dreamlike Photoreal 2.0 หรือ www.huggingface.co/dreamlike-art/dreamlike-photoreal-2.0</p>
+                            <p>และค่าเฉลี่ยการรันโมเดล Dreamlike Anime 1.0 เป็นจำนวน 10 ครั้ง เฉลี่ยแล้วได้ 155.233 วินาที</p>
+                            <br>
+                            <p>สำหรับรายละเอียดเพิ่มเติมและตัวอย่างภาพ สามารถดูได้ที่ <a href="https://huggingface.co/dreamlike-art/dreamlike-photoreal-2.0" target="_blank" class="text-blue-600 hover:text-blue-800"> Dreamlike Photoreal 2.0</a></p>
                             <br>
                             <p>CreativeML OpenRAIL-M (Responsible AI License - Model) เป็นลิขสิทธิ์ที่อนุญาตให้ใช้งานและปรับปรุงโมเดลโมเดลปัญญาประดิษฐ์ โดยมีเงื่อนไขที่กำหนดเพื่อป้องกันการใช้งานที่ไม่เหมาะสม เช่น ห้ามใช้เพื่อก่ออาชญากรรม ละเมิดความเป็นส่วนตัว หรือสร้างเนื้อหาที่เป็นอันตราย ใบอนุญาตนี้อนุญาตให้ผู้ใช้เผยแพร่และปรับปรุงโมเดล แต่ต้องปฏิบัติตามข้อกำหนดเพื่อรักษาจริยธรรมและความปลอดภัย</p>
                             <br>
+                            <p><a class="font-bold">เหตุผล </a>ที่ใช้โมเดล 3 ตัวนี้เพราะ เป็นโมเดลขนาดเล็ก เหมาะกับที่จะนำมาใช้บนเว็บโปรเจกต์นี้ และเหมาะสมกับ อุปกรณ์และเครื่องมือที่ใช้พัฒนา</p>
+                            <br>
+                            <p><a class="font-bold">สรุปได้ว่า</a> โมเดลที่ทำงานได้เร็วที่สุด เรียงลำดับจากน้อยไปมาก</p>
+                            <p>1. Dreamlike Photoreal 2.0</p>
+                            <p>2. Dreamlike Anime 1.0</p>
+                            <p>3. anime-kawai-diffusion</p>
+                            <br>
                             <h2 class="font-bold">แหล่งข้อมูลอ้างอิงที่นำโมเดลมาใช้</h2>
-                            <p>1. www.huggingface.co/Ojimi/anime-kawai-diffusion</p>
-                            <p>2. www.huggingface.co/docs/diffusers/index</p>
-                            <p>3. www.huggingface.co/dreamlike-art/dreamlike-anime-1.0</p>
-                            <p>4. www.huggingface.co/dreamlike-art/dreamlike-photoreal-2.0</p>
+                            <p><a href="https://huggingface.co/Ojimi/anime-kawai-diffusion" target="_blank" class="text-blue-600 hover:text-blue-800"> 1. www.huggingface.co/Ojimi/anime-kawai-diffusion</a></p>
+                            <p><a href="https://huggingface.co/docs/diffusers/index" target="_blank" class="text-blue-600 hover:text-blue-800"> 2. www.huggingface.co/docs/diffusers/index</a></p>
+                            <p><a href="https://huggingface.co/dreamlike-art/dreamlike-anime-1.0" target="_blank" class="text-blue-600 hover:text-blue-800"> 3. www.huggingface.co/dreamlike-art/dreamlike-anime-1.0</a></p>
+                            <p><a href="https://huggingface.co/dreamlike-art/dreamlike-photoreal-2.0" target="_blank" class="text-blue-600 hover:text-blue-800"> 3. 4. www.huggingface.co/dreamlike-art/dreamlike-photoreal-2.0</a></p>
                         </div>
                     </div>    
                 </div>
