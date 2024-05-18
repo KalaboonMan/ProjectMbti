@@ -37,15 +37,15 @@
                         <form method="POST">
                             {% csrf_token %}
                             <label  for="careerDropdown">เลือกอาชีพ:</label>
-                            <select id="careerDropdown" name="career" onchange="saveSelection('career', this.value)">
+                            <select id="careerDropdown" name="career" onchange="saveSelection('career', this.value)" class="bg-gray-300">
                                 {% for thai_career, eng_career in careers_option.items %}
                                 <option value="{{ eng_career }}">{{ thai_career }}</option>
                             {% endfor %}
                             </select>
                             <br>
                             <label  for="hairColorDropdown">เลือกสีผม:</label>
-                            <select id="hairColorDropdown" name="hair" onchange="saveSelection('hair', this.value, this)">
-                                <option value="red hair"  style="color: rgb(255, 0, 0);" >███</option>
+                            <select id="hairColorDropdown" name="hair" onchange="saveSelection('hair', this.value, this)" class="bg-gray-300">
+                                <option value="red hair" style="color: rgb(255, 0, 0);" >███</option>
                                 <option value="dark hair" style="color: rgb(0, 0, 0);" >███</option>
                                 <option value="white hair" style="color: rgb(255, 255, 255);" >███</option>
                                 <option value="yellow hair" style="color: rgb(255, 234, 0);" >███</option>
@@ -58,7 +58,7 @@
                             </select>
                             <br>
                             <label  for="skinColorDropdown">เลือกสีผิว:</label>
-                            <select id="skinColorDropdown" name="skin" onchange="saveSelection('skin', this.value, this)">
+                            <select id="skinColorDropdown" name="skin" onchange="saveSelection('skin', this.value, this)" class="bg-gray-300">
                                 <option value="white skin " style="color: rgb(255, 231, 205);" >███</option>
                                 <option value="warm skin " style="color: rgb(244, 186, 119);" >███</option>
                                 <option value="dark skin " style="color: rgb(80, 49, 15);" >███</option>
@@ -89,8 +89,8 @@
                                     const selectedOption = selectElement.options[selectElement.selectedIndex];
                                     selectElement.style.color = selectedOption.style.color;
                                 }
-    
                             </script>
+                            
                             <br>    
                             <br>
                             <label for="modelDropdown">Choose a model:</label>
