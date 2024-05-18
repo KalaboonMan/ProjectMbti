@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 <head>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <style>
     body {
       background: linear-gradient(to bottom, #fbcfe8, #fdf2f8 100%);
@@ -30,7 +29,7 @@
           <p>เบอร์โทร: {{ profile.phone }}</p> 
         </div>
         <div class="flex justify-end mt-4"> <!-- ใช้ flex justify-center เพื่อจัดกลางปุ่ม -->
-          <a href="{% url 'edit_profile'%}" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">แก้ไข</a>
+          <a href="{% url 'edit_profile'%}" class="px-4 py-2 bg-[#88498f] text-white rounded hover:bg-[#6a1b9a]">แก้ไข</a>
         </div>
       </form>
     </div>

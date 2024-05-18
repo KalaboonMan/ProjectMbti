@@ -14,19 +14,14 @@
     <div class="w-full max-w-8xl bg-white rounded-lg shadow-md p-8 mb-6">
         <div class="flex justify-between">
             <div class="w-1/2 p-4">
-                <h1>ผลลัพธ์ บุคลิกภาพของคุณ {{ user }}</h1>
-                <br>
-                {% if message %}
-                <p>{{ message }}</p>  <!-- ข้อความแสดงเมื่อไม่มีข้อมูลผลลัพธ์ -->
-                {% else %}
-                    {% if Point %}
-                        <p>คะแนนของคุณคือ: <br> {{ Point }}</p>
-                    {% endif %}
-                    <br>
-                    {% if MBTI %}
-                        <p>สรุปผลลัพธ์ MBTI ของคุณคือ: <br> {{ MBTI }}</p>
-                    {% endif %}
-                {% endif %}
+              <h1 class="text-[#6366f1]">ผลลัพธ์บุคลิกภาพของคุณ {{ user_display_name }}</h1>
+              <br>
+              <p>สรุปผลลัพธ์ MBTI ของคุณคือ: <br> {{ MBTI }}</p>
+              <br>
+              <p>คำอธิบาย: <br> {{ description }}</p>
+              <br>
+              <p>อาชีพยอดนิยมสำหรับคนไทป์ {{ MBTI }} คือ: <br> {{ careers }}</p>
+              <br>
             </div>
             <div class="w-1/2">
                 <br>
