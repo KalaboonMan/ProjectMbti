@@ -152,14 +152,13 @@ def share_result(request,id):
     user = UserAnswer.objects.filter(user=user).latest('id')
     gender = user.gender
     all_answers = user.answers.split(',')
-    Point,MBTI,description,careers = calculate(all_answers,gender)
+    MBTI,description,careers = calculate(all_answers,gender)
     full_url = request.build_absolute_uri()
     context = {
         'careers': careers,
         'description': description,
         'full_url': full_url,
         'user' : user.user.username,
-        "Point": Point,
         "MBTI": MBTI,
     }
     return render(request, 'mbti/share_result.html', context)
