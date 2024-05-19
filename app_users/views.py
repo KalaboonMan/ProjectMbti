@@ -89,7 +89,7 @@ def edit_profile(request: HttpRequest):
             form.save()
             extended_form.save() # บันทึกข้อมูลโปรไฟล์รวมถึงรูปภาพ
             #messages.success(request, "Your profile was successfully updated.")
-            return HttpResponseRedirect(reverse("edit_profile"))
+            return HttpResponseRedirect(reverse("profile"))
 
     else:
         form = UserProfileForm(instance=user)
