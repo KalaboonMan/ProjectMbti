@@ -24,7 +24,6 @@ def diffpipe(prompt,user):
     image_path = os.path.join('media/ai_image', image_filename)
     image.save(image_path)
 
-    
     return image_path
 
 def dreamlikeanime(prompt,user):
@@ -39,7 +38,6 @@ def dreamlikeanime(prompt,user):
 
     image_path = os.path.join('media/ai_image', image_filename)
     image.save(image_path)
-
     
     return image_path
 
@@ -55,7 +53,6 @@ def dreamlikephotoreal(prompt,user):
     image_path = os.path.join('media/ai_image', image_filename)
     image.save(image_path)
 
-    
     return image_path
 
     

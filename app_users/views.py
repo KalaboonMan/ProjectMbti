@@ -115,32 +115,7 @@ def profile(request):
     try:
         user_profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
-        # จัดการกรณีที่ไม่มีโปรไฟล์อยู่
-        # คุณสามารถเปลี่ยนเส้นทางไปยังหน้าสำหรับการสร้างโปรไฟล์หรือแสดงข้อผิดพลาด
-        return redirect('edit_profile')  # แทนที่ 'create_profile' ด้วยชื่อ URL จริงของคุณสำหรับการสร้างโปรไฟล์
+        return redirect('edit_profile')
 
     context = {'profile': user_profile}
-    return render(request, 'app_users/profile.html', context)
-
-
-@login_required
-def user_profile(request):
-    # ตรวจสอบว่าผู้ใช้ได้ล็อกอินแล้วหรือยัง
-    if not request.user.is_authenticated:
-        return redirect('login_url')  # สมมุติว่า 'login_url' เป็น URL สำหรับหน้าล็อกอิน
-
-    # ดึงโปรไฟล์ของผู้ใช้ที่ล็อกอิน
-    profile = Profile.objects.get(user=request.user)
-    
-    # ดึงฟอร์มโปรไฟล์ของผู้ใช้และปรับปรุงข้อมูลถ้าฟอร์มถูกส่ง
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')  # สมมุติว่า 'profile' เป็น URL สำหรับหน้าโปรไฟล์
-    else:
-        form = UserProfileForm(instance=profile)
-
-    # ส่งโปรไฟล์และฟอร์มไปยัง template
-    context = {'profile': profile, 'form': form}
     return render(request, 'app_users/profile.html', context)
