@@ -358,23 +358,13 @@ def edit_post(request, post_id):
     return render(request, 'mbti/edit_post.html', {'form': form})
 
 def mbti_detail(request, mbti_type):
-    # ตรวจสอบให้แน่ใจว่า mbti_type มีค่าที่ถูกต้องและตรงกับชื่อไฟล์ HTML ที่มีอยู่
-    valid_mbti_types = [
-        'ENFJ', 'ENFP', 'ENTJ', 'ENTP', 'ESFJ', 'ESFP',
-        'ESTJ', 'ESTP', 'INFJ', 'INFP', 'INTJ', 'INTP',
-        'ISFJ', 'ISFP', 'ISTJ', 'ISTP'
-    ]
-    
-    # แปลง mbti_type เป็นตัวพิมพ์ใหญ่เพื่อความสอดคล้องกับชื่อไฟล์
-    mbti_type_upper = mbti_type.upper()
-    if mbti_type_upper in valid_mbti_types:
+    try:
         # สร้างชื่อไฟล์เทมเพลตโดยระบุชื่อโฟลเดอร์ย่อย 'mbti_type' และชื่อไฟล์ HTML
-        type_detail = f"mbti/mbti_type/{mbti_type_upper}.html"
+        type_detail = f"mbti/mbti_type/{mbti_type.upper()}.html"
         return render(request, type_detail)
-    else:
-        # หาก mbti_type ไม่ตรงกับรายการที่มีอยู่ ให้ส่งข้อผิดพลาด 404 กลับไปยังผู้ใช้
+    except TemplateDoesNotExist: # type: ignore
+        # หากไม่พบไฟล์เทมเพลต ให้ส่งข้อผิดพลาด 404 กลับไปยังผู้ใช้
         raise Http404("MBTI type not found.")
-
 
 def delete_postADMIN(request, post_id):
     post = get_object_or_404(Post, id=post_id)
